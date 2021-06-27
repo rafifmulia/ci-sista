@@ -9,6 +9,12 @@ class Admin extends CI_Controller
     parent::__construct();
     $this->load->library('template', ['load' => $this->load]);
     $this->template->admin();
+    
+    if ($this->session->userdata('id_user') == null) {
+      redirect('auth/login');
+    }
+
+    $this->load->model('M_data');
   }
 
   public function dashboard()
@@ -20,9 +26,12 @@ class Admin extends CI_Controller
 
   public function daftar_seminar()
   {
-    $data = [];
+    $data = [
+      'get_pembimbing' => $this->M_data->get_pembimbing(),
+      'get_kategori_seminar' => $this->M_data->get_kategori_seminar(),
+    ];
 
-    $this->template->ex_js('admin/ex_js/daftar_seminar');
+    $this->template->ex_js('admin/ex_js/daftar_seminar', $data);
 
     $this->template->view('admin/daftar_seminar', $data);
   }

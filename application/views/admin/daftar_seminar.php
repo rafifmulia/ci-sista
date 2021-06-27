@@ -123,22 +123,31 @@
           </button>
         </div>
         <div class="modal-body">
-          <form action="#">
+          <form action="">
             <div class="form-group">
               <label>NIM</label>
-              <input type="number" class="form-control">
+              <input name="nim" type="number" class="form-control">
             </div>
             <div class="form-group">
-              <label>Mahasiswa/i</label>
-              <input type="text" class="form-control">
+              <label>Nama Mahasiswa/i</label>
+              <input name="nama" type="text" class="form-control">
             </div>
             <div class="form-group">
               <label>Seminar</label>
-              <select class="form-control">
+              <select name="jenis_seminar" class="form-control">
                 <option value="0">Pilih Seminar</option>
-                <option value="1">Proposal</option>
-                <option value="2">Seminar Hasil</option>
-                <option value="3">Seminar Akhir</option>
+                <?php foreach ($get_kategori_seminar as $ks) { ?>
+                  <option value="<?php echo $ks['id'] ?>"><?php echo $ks['nama'] ?></option>
+                <?php } ?>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Seminar</label>
+              <select name="pembimbing" class="form-control">
+                <option value="0">Pilih Seminar</option>
+                <?php foreach ($get_pembimbing as $p) {?>
+                <option value="<?php echo $p['id'] ?>"><?php echo $p['nama'] ?></option>
+                <?php } ?>
               </select>
             </div>
             <div class="form-group">

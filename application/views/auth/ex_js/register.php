@@ -4,7 +4,40 @@
   let password = $('#password');
   let password2 = $('#password2');
 
-  $('#createAccount').on('click', function(e) {
+  function pwcek() {
+    if (password.val() == '') {
+      password.addClass('border border-danger');
+      Swal.fire({
+        title: 'Password Kosong',
+        text: 'Isi dulu dong!',
+        icon: 'warning',
+        confirmButtonText: 'Oke'
+      })
+      return false;
+    }
+    if (password2.val() == '') {
+      password2.addClass('border border-danger');
+      Swal.fire({
+        title: 'Pengulangan Password Kosong',
+        text: 'Isi dulu dong!',
+        icon: 'warning',
+        confirmButtonText: 'Oke'
+      })
+      return false;
+    }
+    if (password.val() != password2.val()) {
+      password2.addClass('border border-danger');
+      Swal.fire({
+        title: 'Password Tidak Sama',
+        text: 'Samain dulu dong!',
+        icon: 'warning',
+        confirmButtonText: 'Oke'
+      })
+      return false;
+    }
+  }
+
+  $('#createAccountComment').on('click', function(e) {
     e.preventDefault();
 
     username.removeClass('border border-danger');

@@ -13,12 +13,12 @@
               <div class="text-center">
                 <h1 class="h4 text-gray-900 mb-4">Selamat Datang!</h1>
               </div>
-              <form class="user">
+              <form class="user" action="<?= base_url('auth/check_login') ?>" method="POST">
                 <div class="form-group">
-                  <input type="email" class="form-control form-control-user" id="email" aria-describedby="emailHelp" placeholder="Enter Email Address...">
+                  <input type="email" name="email" class="form-control form-control-user" id="email" aria-describedby="emailHelp" placeholder="Enter email...">
                 </div>
                 <div class="form-group">
-                  <input type="password" class="form-control form-control-user" id="password" placeholder="Password">
+                  <input type="password" name="password" class="form-control form-control-user" id="password" placeholder="Password">
                 </div>
                 <div class="form-group">
                   <div class="custom-control custom-checkbox small">
@@ -26,7 +26,7 @@
                     <label class="custom-control-label" for="customCheck">Ingat Saya</label>
                   </div>
                 </div>
-                <button type="button" id="btnLogin" class="btn btn-primary btn-user btn-block">
+                <button type="submit" id="btnLogin" class="btn btn-primary btn-user btn-block">
                   Login
                 </button>
               </form>
