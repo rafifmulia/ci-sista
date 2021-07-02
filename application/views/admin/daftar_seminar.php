@@ -13,6 +13,22 @@
 
   <!-- Content Row -->
   <div class="row">
+    <div class="col-12">
+      <?php
+      if ($this->session->flashdata('danger')) {
+        echo '<div id="danger" class="alert alert-danger">' . $this->session->flashdata('danger') . '</div>';
+      }
+      if ($this->session->flashdata('warning')) {
+        echo '<div id="warning" class="alert alert-warning">' . $this->session->flashdata('warning') . '</div>';
+      }
+      if ($this->session->flashdata('info')) {
+        echo '<div id="info" class="alert alert-info">' . $this->session->flashdata('info') . '</div>';
+      }
+      ?>
+    </div>
+  </div>
+
+  <div class="row">
 
     <div class="col-12 mb-4">
       <div class="card shadow h-100 py-2">
@@ -41,6 +57,29 @@
                   </tr>
                 </thead>
                 <tbody>
+                  <?php foreach ($daftar_seminar as $s) { ?>
+                    <tr>
+                      <td data-id="<?= $s->id ?>"><?= $s->id ?></td>
+                      <td><?= $s->nim ?></td>
+                      <td data-name="<?= $s->nama_mahasiswa ?>"><?= $s->nama_mahasiswa ?></td>
+                      <td><?= $s->kategori_seminar ?></td>
+                      <td><?= substr($s->jam, 0, -3) ?> <?= $s->tanggal ?></td>
+                      <td><?= $s->lokasi ?></td>
+                      <td>
+                        <a href="#" class="text-info viewPeserta"><?= ($s->total_peserta) ? $s->total_peserta : 0 ?> (view)</a>
+                      </td>
+                      <td>
+                        <button class="btn btn-info editSeminar">
+                          <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-danger delSeminar">
+                          <i class="fas fa-trash-alt"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  <?php } ?>
+                </tbody>
+                <!-- <tbody>
                   <tr>
                     <td data-id="1">1</td>
                     <td>0102041</td>
@@ -98,7 +137,7 @@
                       </button>
                     </td>
                   </tr>
-                </tbody>
+                </tbody> -->
               </table>
             </div>
           </div>
@@ -114,67 +153,152 @@
 <div>
   <!-- Modal Add Seminar -->
   <div class="modal fade" id="modalTambahSeminar" tabindex="-1" role="dialog" aria-labelledby="modalTambahSeminarTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Tambah Seminar Baru</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form action="">
-            <div class="form-group">
-              <label>NIM</label>
-              <input name="nim" type="number" class="form-control">
-            </div>
-            <div class="form-group">
-              <label>Nama Mahasiswa/i</label>
-              <input name="nama" type="text" class="form-control">
-            </div>
-            <div class="form-group">
-              <label>Seminar</label>
-              <select name="jenis_seminar" class="form-control">
-                <option value="0">Pilih Seminar</option>
-                <?php foreach ($get_kategori_seminar as $ks) { ?>
-                  <option value="<?php echo $ks['id'] ?>"><?php echo $ks['nama'] ?></option>
-                <?php } ?>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Seminar</label>
-              <select name="pembimbing" class="form-control">
-                <option value="0">Pilih Seminar</option>
-                <?php foreach ($get_pembimbing as $p) {?>
-                <option value="<?php echo $p['id'] ?>"><?php echo $p['nama'] ?></option>
-                <?php } ?>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Waktu</label>
-              <div class="form-row">
-                <div class="col">
-                  <input type="date" class="form-control">
+        <form action="<?= base_url('admin/save_seminar') ?>" method="POST">
+          <div class="modal-header">
+            <h5 class="modal-title">Tambah Seminar Baru</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-sm-12 col-md-6">
+                <div class="form-group row">
+                  <div class="col-sm-12 col-md-3 col-lg-2">
+                    <label style="font-size:15px;font-weight:bold;">NIM</label>
+                  </div>
+                  <div class="col-sm-12 col-md-9 col-lg-10">
+                    <input id="nim" name="nim" type="number" class="form-control">
+                  </div>
                 </div>
-                <div class="col">
-                  <input type="time" class="form-control">
+                <div class="form-group row">
+                  <div class="col-sm-12 col-md-3 col-lg-2">
+                    <label style="font-size:15px;font-weight:bold;">Nama</label>
+                  </div>
+                  <div class="col-sm-12 col-md-9 col-lg-10">
+                    <input id="nama" name="nama" type="text" class="form-control">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-12 col-md-3 col-lg-2">
+                    <label style="font-size:15px;font-weight:bold;">Prodi</label>
+                  </div>
+                  <div class="col-sm-12 col-md-9 col-lg-10">
+                    <select id="prodi" name="prodi" class="form-control">
+                      <option value="0">Pilih Prodi</option>
+                      <option value="si">Sistem Informasi</option>
+                      <option value="ti">Teknik Informatika</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-12 col-md-3 col-lg-2">
+                    <label style="font-size:15px;font-weight:bold;">Semester</label>
+                  </div>
+                  <div class="col-sm-12 col-md-9 col-lg-10">
+                    <select name="semester" class="form-control">
+                      <?php for ($i = 1; $i < 11; $i++) { ?>
+                        <option value="<?php echo $i ?>"><?php echo $i ?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-12 col-md-5 col-lg-4">
+                    <label style="font-size:15px;font-weight:bold;">Tanggal Seminar</label>
+                  </div>
+                  <div class="col-sm-12 col-md-7 col-lg-8">
+                    <input id="tglSeminar" name="tgl" type="date" class="form-control">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-12 col-md-5 col-lg-4">
+                    <label style="font-size:15px;font-weight:bold;">Jam Seminar</label>
+                  </div>
+                  <div class="col-sm-12 col-md-7 col-lg-8">
+                    <input id="jamSeminar" name="jam" type="time" class="form-control">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-12 col-md-4 col-lg-3">
+                    <label style="font-size:15px;font-weight:bold;">Ruangan</label>
+                  </div>
+                  <div class="col-sm-12 col-md-8 col-lg-9">
+                    <input type="text" name="ruangan" class="form-control">
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6">
+                <div class="form-group row">
+                  <div class="col-sm-12 col-md-4 col-lg-3">
+                    <label style="font-size:15px;font-weight:bold;">Judul TA</label>
+                  </div>
+                  <div class="col-sm-12 col-md-8 col-lg-9">
+                    <textarea id="judulTA" name="judul" class="form-control"></textarea>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-12 col-md-4 col-lg-3">
+                    <label style="font-size:15px;font-weight:bold;">Seminar</label>
+                  </div>
+                  <div class="col-sm-12 col-md-8 col-lg-9">
+                    <select name="kategori_seminar" class="form-control">
+                      <option value="0">Pilih Kategori</option>
+                      <?php foreach ($get_kategori_seminar as $ks) { ?>
+                        <option value="<?php echo $ks['id'] ?>"><?php echo $ks['nama'] ?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-12 col-md-4 col-lg-4">
+                    <label style="font-size:15px;font-weight:bold;">Pembimbing</label>
+                  </div>
+                  <div class="col-sm-12 col-md-8 col-lg-8">
+                    <select name="pembimbing" class="form-control">
+                      <option value="0">Pilih Pembimbing</option>
+                      <?php foreach ($get_dosen as $p) { ?>
+                        <option value="<?php echo $p['id'] ?>"><?php echo $p['nama'] ?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-12 col-md-4 col-lg-3">
+                    <label style="font-size:15px;font-weight:bold;">Penguji1</label>
+                  </div>
+                  <div class="col-sm-12 col-md-8 col-lg-9">
+                    <select name="penguji1" class="form-control">
+                      <option value="0">Pilih Penguji1</option>
+                      <?php foreach ($get_dosen as $p) { ?>
+                        <option value="<?php echo $p['id'] ?>"><?php echo $p['nama'] ?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-12 col-md-4 col-lg-3">
+                    <label style="font-size:15px;font-weight:bold;">Penguji2</label>
+                  </div>
+                  <div class="col-sm-12 col-md-8 col-lg-9">
+                    <select name="penguji2" class="form-control">
+                      <option value="0">Pilih Penguji2</option>
+                      <?php foreach ($get_dosen as $p) { ?>
+                        <option value="<?php echo $p['id'] ?>"><?php echo $p['nama'] ?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="form-group">
-              <label>Ruangan</label>
-              <select class="form-control">
-                <option value="0">Pilih Ruangan</option>
-                <option value="1">Zoom</option>
-                <option value="2">Google Meet</option>
-              </select>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-          <button type="button" class="btn btn-primary">Simpan</button>
-        </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+            <button type="submit" class="btn btn-primary">Tambah</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

@@ -28,12 +28,17 @@ class Auth extends CI_Controller
     $data = $this->M_data->check_login($email, $password);
     if ($data) {
       $data_user = array(
-        'id_user' => $data,
+        'id_user' => $data['id_user'],
+        'username' => $data['username'],
+        'email' => $data['email'],
+        'lvl' => $data['lvl'],
       );
       $this->session->set_userdata($data_user);
 
+      $this->session->set_flashdata('welcome', $data_user['username']);
       redirect('admin/dashboard');
     } else {
+      $this->session->set_flashdata('warning', 'Email / password tidak sesuai');
       redirect('auth/login');
     }
   }
@@ -68,16 +73,25 @@ class Auth extends CI_Controller
 
     if ($this->input->post('password') == $password2) {
       $this->load->model('M_data');
-      $reg = $this->M_data->save_register($data);
-      if ($reg) {
-        $this->session->set_flashdata('pesan', 'Akun kamu berhasil dibuat');
+
+      $check = $this->M_data->is_email_used($data['email']);
+      if ($check) {
+        $this->session->set_flashdata('warning', 'Email sudah digunakan');
       } else {
-        $this->session->set_flashdata('pesan', 'Data gagal disimpan');  
+
+        $reg = $this->M_data->save_register($data);
+        if ($reg) {
+          $this->session->set_flashdata('info', 'Akun kamu berhasil dibuat');
+        } else {
+          $this->session->set_flashdata('warning', 'Gagal membuat akun');
+        }
+
       }
+
     } else if ($this->input->post('password') == '') {
-      $this->session->set_flashdata('pesan', 'Password tidak boleh kosong');
+      $this->session->set_flashdata('warning', 'Password tidak boleh kosong');
     } else {
-      $this->session->set_flashdata('pesan', 'Password tidak sama');
+      $this->session->set_flashdata('warning', 'Password tidak sama');
     }
 
     redirect('auth/register');

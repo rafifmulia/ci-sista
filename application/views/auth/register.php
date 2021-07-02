@@ -8,7 +8,14 @@
           <div class="text-center">
             <h1 class="h4 text-gray-900 mb-4">Buat Akun Baru!</h1>
           </div>
-          <div id="pesan"></div>
+          <?php 
+            if ($this->session->flashdata('warning')) {
+              echo '<div id="warning" class="alert alert-warning">'.$this->session->flashdata('warning').'</div>';
+            }
+            if ($this->session->flashdata('info')) {
+              echo '<div id="info" class="alert alert-info">'.$this->session->flashdata('info').'</div>';
+            }
+          ?>
           <form action="<?= base_url('auth/save_register'); ?>" method="POST" class="user">
             <div class="form-group">
               <input name="username" type="text" class="form-control form-control-user" id="username" placeholder="Username" required>

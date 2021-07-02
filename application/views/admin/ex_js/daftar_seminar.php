@@ -17,6 +17,7 @@
   });
 
   $('#daftarSeminar').on('click', '.editSeminar', function(e) {
+    let id = $(e.target).closest('tr').find('td[data-id]').data('id');
     let name = $(e.target).closest('tr').find('td[data-name]').data('name');
     $('#namaPesertaSeminar').html(name);
     $('#modalEditSeminar').modal('show');
@@ -33,11 +34,35 @@
       reverseButtons: true
     }).then((result) => {
       if (result.isConfirmed) {
-        swalWithBootstrapButtons.fire(
-          'Terhapus!',
-          'Data terhapus secara permanent.',
-          'success'
-        )
+        let id = $(e.target).closest('tr').find('td[data-id]').data('id');
+
+        $.ajax({
+          url: '<?= base_url('admin/del_seminar') ?>',
+          method: 'post',
+          data: {
+            id
+          },
+          crossDomain: true,
+          processData: true,
+          success: (data, textStatus, jqXHR) => {
+            swalWithBootstrapButtons.fire(
+              'Terhapus!',
+              'Data terhapus secara permanent.',
+              'success'
+            ).then((result) => {
+              if (result.isConfirmed) {
+                window.location.reload()
+              }
+            })
+          },
+          error: (jqXHR, textStatus, error) => {
+            swalWithBootstrapButtons.fire(
+              'Dibatalkan',
+              'Seminar tidak jadi dihapus :)',
+              'error'
+            )
+          }
+        })
       } else if (
         /* Read more about handling dismissals below */
         result.dismiss === Swal.DismissReason.cancel

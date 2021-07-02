@@ -4,7 +4,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>Login Admin</title>
+<title>Authentification</title>
 
 <!-- Custom fonts for this template-->
 <link href="<?= base_url('assets/css/fontawesome/all.min.css') ?>" rel="stylesheet" type="text/css">
