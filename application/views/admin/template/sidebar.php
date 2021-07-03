@@ -67,57 +67,30 @@
 
   <!-- Nav Item -->
   <li class="nav-item">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMahasiswa" aria-expanded="true" aria-controls="collapseMahasiswa">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDosen" aria-expanded="true" aria-controls="collapseDosen">
       <i class="fas fa-fw fa-folder"></i>
-      <span>Mahasiswa</span>
+      <span>Dosen</span>
     </a>
-    <div id="collapseMahasiswa" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+    <div id="collapseDosen" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
-        <h6 class="collapse-header">Kelola Mahasiswa:</h6>
-        <a class="collapse-item" href="#">Daftar Mahasiswa</a>
+        <h6 class="collapse-header">Kelola Dosen:</h6>
+        <a class="collapse-item" href="#">Daftar Dosen</a>
       </div>
     </div>
   </li>
 
   <li class="nav-item">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePemakalah" aria-expanded="true" aria-controls="collapsePemakalah">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePenilaian" aria-expanded="true" aria-controls="collapsePenilaian">
       <i class="fas fa-fw fa-folder"></i>
-      <span>Pemakalah</span>
+      <span>Penilaian</span>
     </a>
-    <div id="collapsePemakalah" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+    <div id="collapsePenilaian" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
-        <h6 class="collapse-header">Kelola Pemakalah:</h6>
-        <a class="collapse-item" href="#">Daftar Pemakalah</a>
+        <h6 class="collapse-header">Kelola Penilaian:</h6>
+        <a class="collapse-item" href="#">Daftar Penilaian</a>
       </div>
     </div>
   </li>
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseRuangan" aria-expanded="true" aria-controls="collapseRuangan">
-      <i class="fas fa-fw fa-folder"></i>
-      <span>Ruangan</span>
-    </a>
-    <div id="collapseRuangan" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-      <div class="bg-white py-2 collapse-inner rounded">
-        <h6 class="collapse-header">Kelola Ruangan:</h6>
-        <a class="collapse-item" href="#">Daftar Ruangan</a>
-      </div>
-    </div>
-  </li>
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProdi" aria-expanded="true" aria-controls="collapseProdi">
-      <i class="fas fa-fw fa-folder"></i>
-      <span>Prodi</span>
-    </a>
-    <div id="collapseProdi" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-      <div class="bg-white py-2 collapse-inner rounded">
-        <h6 class="collapse-header">Kelola Prodi:</h6>
-        <a class="collapse-item" href="#">Daftar Prodi</a>
-      </div>
-    </div>
-  </li>
-
 
   <!-- <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true"

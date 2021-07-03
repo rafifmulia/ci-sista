@@ -53,7 +53,7 @@ class Admin extends CI_Controller
       ]);
       return true;
     }
-    
+
     echo json_encode([
       'meta' => [
         'code' => 200,
@@ -112,19 +112,19 @@ class Admin extends CI_Controller
       $this->session->set_flashdata('warning', 'Silahkan isi judul');
       redirect('admin/daftar_seminar');
     }
-    if ($data['kategori_seminar_id'] == null) {
+    if ($data['kategori_seminar_id'] == 0) {
       $this->session->set_flashdata('warning', 'Silahkan pilih kategori seminar');
       redirect('admin/daftar_seminar');
     }
-    if ($data['pembimbing_id'] == null) {
+    if ($data['pembimbing_id'] == 0) {
       $this->session->set_flashdata('warning', 'Silahkan pilih pembimbing');
       redirect('admin/daftar_seminar');
     }
-    if ($data['penguji1_id'] == null) {
+    if ($data['penguji1_id'] == 0) {
       $this->session->set_flashdata('warning', 'Silahkan pilih penguji1');
       redirect('admin/daftar_seminar');
     }
-    if ($data['penguji2_id'] == null) {
+    if ($data['penguji2_id'] == 0) {
       $this->session->set_flashdata('warning', 'Silahkan pilih penguji2');
       redirect('admin/daftar_seminar');
     }
@@ -189,19 +189,19 @@ class Admin extends CI_Controller
       $this->session->set_flashdata('warning', 'Silahkan isi judul');
       redirect('admin/daftar_seminar');
     }
-    if ($data['kategori_seminar_id'] == null) {
+    if ($data['kategori_seminar_id'] == 0) {
       $this->session->set_flashdata('warning', 'Silahkan pilih kategori seminar');
       redirect('admin/daftar_seminar');
     }
-    if ($data['pembimbing_id'] == null) {
+    if ($data['pembimbing_id'] == 0) {
       $this->session->set_flashdata('warning', 'Silahkan pilih pembimbing');
       redirect('admin/daftar_seminar');
     }
-    if ($data['penguji1_id'] == null) {
+    if ($data['penguji1_id'] == 0) {
       $this->session->set_flashdata('warning', 'Silahkan pilih penguji1');
       redirect('admin/daftar_seminar');
     }
-    if ($data['penguji2_id'] == null) {
+    if ($data['penguji2_id'] == 0) {
       $this->session->set_flashdata('warning', 'Silahkan pilih penguji2');
       redirect('admin/daftar_seminar');
     }
@@ -242,11 +242,114 @@ class Admin extends CI_Controller
 
   public function daftar_user()
   {
-    $data = [];
+    $data = [
+      'get_user' => $this->M_data->get_user(),
+    ];
 
     $this->template->ex_js('admin/ex_js/daftar_user');
 
     $this->template->view('admin/daftar_user', $data);
+  }
+
+  public function detail_user()
+  {
+    header('Content-Type: application/json');
+
+    $id = $this->input->get('id');
+    $data = $this->M_data->detail_user($id);
+
+    if (count($data) < 1) {
+      echo json_encode([
+        'meta' => [
+          'code' => 400,
+          'message' => 'Fail get detail user',
+        ]
+      ]);
+      return true;
+    }
+
+    echo json_encode([
+      'meta' => [
+        'code' => 200,
+        'message' => 'Success get detail user',
+      ],
+      'data' => $data[0]
+    ]);
+    return true;
+  }
+
+  public function save_user()
+  {
+    $password2 = $this->input->post('password2');
+
+    $data = array(
+      'username' => $this->input->post('username'),
+      'email' => $this->input->post('email'),
+      'password' => md5($this->input->post('password')),
+      'lvl' =>  'user',
+    );
+
+    $this->load->model('M_data');
+    if ($this->input->post('username') == '') {
+      $this->session->set_flashdata('warning', 'Username tidak boleh kosong');
+    } else if ($this->input->post('email') == '') {
+      $this->session->set_flashdata('warning', 'Email tidak boleh kosong');
+    } else if ($this->input->post('password') == '') {
+      $this->session->set_flashdata('warning', 'Password tidak boleh kosong');
+    } else if ($this->input->post('password2') == '') {
+      $this->session->set_flashdata('warning', 'Konfirmasi Password tidak boleh kosong');
+    } else if ($this->input->post('password') == $password2) {
+      $check = $this->M_data->is_email_used($data['email']);
+      if ($check) {
+        $this->session->set_flashdata('warning', 'Email sudah digunakan');
+      } else {
+
+        $reg = $this->M_data->save_register($data);
+        if ($reg) {
+          $this->session->set_flashdata('info', 'Akun kamu berhasil dibuat');
+        } else {
+          $this->session->set_flashdata('warning', 'Gagal membuat akun');
+        }
+      }
+    } else {
+      $this->session->set_flashdata('warning', 'Password tidak sama');
+    }
+
+    redirect('admin/daftar_user');
+  }
+
+  public function edit_user()
+  {
+    $data = array(
+      'id_user' => $this->input->post('id'),
+      // 'username' => $this->input->post('username'),
+      // 'email' => $this->input->post('email'),
+      'status' => ($this->input->post('status') == 'on') ? 'active' : 'not',
+    );
+
+    $this->load->model('M_data');
+    $reg = $this->M_data->edit_user($data);
+    if ($reg) {
+      $this->session->set_flashdata('info', 'Berhasil merubah akun');
+    } else {
+      $this->session->set_flashdata('warning', 'Gagal merubah akun');
+    }
+
+    redirect('admin/daftar_user');
+  }
+
+  public function del_user()
+  {
+    $id = $this->input->post('id');
+    $this->load->model('M_data');
+    $delete = $this->M_data->del_user($id);
+    if ($delete) {
+      $this->session->set_flashdata('info', 'Berhasil menghapus user');
+    } else {
+      $this->session->set_flashdata('warning', 'Gagal menghapus user');
+    }
+
+    redirect('admin/daftar_user');
   }
 
   public function verify_user()

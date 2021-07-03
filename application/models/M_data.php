@@ -41,6 +41,31 @@ class M_data extends CI_Model
     return $query->result_array();
   }
 
+  public function get_user()
+  {
+    $query = $this->db->where('lvl', 'user')->get('user');
+    
+    return $query->result_array();
+  }
+
+  public function detail_user($id)
+  {
+    $query = $this->db->where('id_user', $id)->limit(1)->get('user');
+    
+    return $query->result_array();
+  }
+
+  public function edit_user($data)
+  {
+    $query = $this->db->where('id_user', $data['id_user']);
+    return $query->update('user', $data);
+  }
+
+  public function del_user($id)
+  {
+    return $this->db->delete('user', ['id_user' => $id]);
+  }
+
   public function get_dosen()
   {
     $query = $this->db->get('dosen');

@@ -7,7 +7,7 @@ class Auth extends CI_Controller
   public function __construct()
   {
     parent::__construct();
-    $this->load->library('template', ['load'=>$this->load]);
+    $this->load->library('template', ['load' => $this->load]);
     $this->template->auth();
   }
 
@@ -71,9 +71,16 @@ class Auth extends CI_Controller
       'lvl' =>  'user',
     );
 
-    if ($this->input->post('password') == $password2) {
-      $this->load->model('M_data');
-
+    $this->load->model('M_data');
+    if ($this->input->post('username') == '') {
+      $this->session->set_flashdata('warning', 'Username tidak boleh kosong');
+    } else if ($this->input->post('email') == '') {
+      $this->session->set_flashdata('warning', 'Email tidak boleh kosong');
+    } else if ($this->input->post('password') == '') {
+      $this->session->set_flashdata('warning', 'Password tidak boleh kosong');
+    } else if ($this->input->post('password2') == '') {
+      $this->session->set_flashdata('warning', 'Konfirmasi Password tidak boleh kosong');
+    } else if ($this->input->post('password') == $password2) {
       $check = $this->M_data->is_email_used($data['email']);
       if ($check) {
         $this->session->set_flashdata('warning', 'Email sudah digunakan');
@@ -85,11 +92,7 @@ class Auth extends CI_Controller
         } else {
           $this->session->set_flashdata('warning', 'Gagal membuat akun');
         }
-
       }
-
-    } else if ($this->input->post('password') == '') {
-      $this->session->set_flashdata('warning', 'Password tidak boleh kosong');
     } else {
       $this->session->set_flashdata('warning', 'Password tidak sama');
     }

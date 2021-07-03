@@ -57,9 +57,10 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <?php foreach ($daftar_seminar as $s) { ?>
+                  <?php $i = 0;
+                  foreach ($daftar_seminar as $s) { ?>
                     <tr>
-                      <td data-id="<?= $s->id ?>"><?= $s->id ?></td>
+                      <td data-id="<?= $s->id ?>"><?= ++$i ?></td>
                       <td><?= $s->nim ?></td>
                       <td data-name="<?= $s->nama_mahasiswa ?>"><?= $s->nama_mahasiswa ?></td>
                       <td><?= $s->kategori_seminar ?></td>
@@ -170,7 +171,7 @@
                     <label style="font-size:15px;font-weight:bold;">NIM</label>
                   </div>
                   <div class="col-sm-12 col-md-9 col-lg-10">
-                    <input id="nim" name="nim" type="number" class="form-control">
+                    <input id="nim" name="nim" type="number" class="form-control" required>
                   </div>
                 </div>
                 <div class="form-group row">
@@ -178,7 +179,7 @@
                     <label style="font-size:15px;font-weight:bold;">Nama</label>
                   </div>
                   <div class="col-sm-12 col-md-9 col-lg-10">
-                    <input id="nama" name="nama" type="text" class="form-control">
+                    <input id="nama" name="nama" type="text" class="form-control" required>
                   </div>
                 </div>
                 <div class="form-group row">
@@ -210,7 +211,7 @@
                     <label style="font-size:15px;font-weight:bold;">Tanggal Seminar</label>
                   </div>
                   <div class="col-sm-12 col-md-7 col-lg-8">
-                    <input id="tglSeminar" name="tgl" type="date" class="form-control">
+                    <input id="tglSeminar" name="tgl" type="date" class="form-control" required>
                   </div>
                 </div>
                 <div class="form-group row">
@@ -218,7 +219,7 @@
                     <label style="font-size:15px;font-weight:bold;">Jam Seminar</label>
                   </div>
                   <div class="col-sm-12 col-md-7 col-lg-8">
-                    <input id="jamSeminar" name="jam" type="time" class="form-control">
+                    <input id="jamSeminar" name="jam" type="time" class="form-control" required>
                   </div>
                 </div>
                 <div class="form-group row">
@@ -226,7 +227,7 @@
                     <label style="font-size:15px;font-weight:bold;">Ruangan</label>
                   </div>
                   <div class="col-sm-12 col-md-8 col-lg-9">
-                    <input type="text" name="ruangan" class="form-control">
+                    <input type="text" name="ruangan" class="form-control" required>
                   </div>
                 </div>
               </div>
@@ -371,8 +372,8 @@
                     <label style="font-size:15px;font-weight:bold;">NIM</label>
                   </div>
                   <div class="col-sm-12 col-md-9 col-lg-10">
-                    <input id="ed_id" name="id" type="number" class="form-control" hidden>
-                    <input id="ed_nim" name="nim" type="number" class="form-control">
+                    <input id="ed_id" name="id" type="number" class="form-control" hidden required>
+                    <input id="ed_nim" name="nim" type="number" class="form-control" required>
                   </div>
                 </div>
                 <div class="form-group row">
@@ -380,7 +381,7 @@
                     <label style="font-size:15px;font-weight:bold;">Nama</label>
                   </div>
                   <div class="col-sm-12 col-md-9 col-lg-10">
-                    <input id="ed_nama" name="nama" type="text" class="form-control">
+                    <input id="ed_nama" name="nama" type="text" class="form-control" required>
                   </div>
                 </div>
                 <div class="form-group row">
@@ -412,7 +413,7 @@
                     <label style="font-size:15px;font-weight:bold;">Tanggal Seminar</label>
                   </div>
                   <div class="col-sm-12 col-md-7 col-lg-8">
-                    <input id="ed_tglSeminar" name="tgl" type="date" class="form-control">
+                    <input id="ed_tglSeminar" name="tgl" type="date" class="form-control" required>
                   </div>
                 </div>
                 <div class="form-group row">
@@ -420,7 +421,7 @@
                     <label style="font-size:15px;font-weight:bold;">Jam Seminar</label>
                   </div>
                   <div class="col-sm-12 col-md-7 col-lg-8">
-                    <input id="ed_jamSeminar" name="jam" type="time" class="form-control">
+                    <input id="ed_jamSeminar" name="jam" type="time" class="form-control" required>
                   </div>
                 </div>
                 <div class="form-group row">
@@ -428,7 +429,7 @@
                     <label style="font-size:15px;font-weight:bold;">Ruangan</label>
                   </div>
                   <div class="col-sm-12 col-md-8 col-lg-9">
-                    <input id="ed_ruangan" type="text" name="ruangan" class="form-control">
+                    <input id="ed_ruangan" type="text" name="ruangan" class="form-control" required>
                   </div>
                 </div>
               </div>

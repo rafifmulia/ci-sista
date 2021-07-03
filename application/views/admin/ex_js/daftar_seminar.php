@@ -19,7 +19,6 @@
   // get detail seminar
   $('#daftarSeminar').on('click', '.editSeminar', function(e) {
     let id = $(e.target).closest('tr').find('td[data-id]').data('id');
-    // let name = $(e.target).closest('tr').find('td[data-name]').data('name');
 
     $.ajax({
       url: '<?= base_url('admin/detail_seminar') ?>?id=' + id,
@@ -105,8 +104,10 @@
 
   // hapus seminar
   $('#daftarSeminar').on('click', '.delSeminar', function(e) {
+    let name = $(e.target).closest('tr').find('td[data-name]').data('name');
+
     swalWithBootstrapButtons.fire({
-      title: 'Kamu yakin?',
+      title: 'Hapus seminar ' + name + ' ?',
       text: "Data akan dihapus secara permanent!",
       icon: 'warning',
       showCancelButton: true,
