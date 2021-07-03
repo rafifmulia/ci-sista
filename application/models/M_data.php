@@ -126,9 +126,27 @@ class M_data extends CI_Model
 
   public function get_active_kategori_seminar()
   {
-    $query = $this->db->get('kategori_seminar');
+    $query = $this->db->where('is_active', 'yes')->get('kategori_seminar');
     
     return $query->result_array();
+  }
+
+  public function detail_kategori_seminar($id)
+  {
+    $query = $this->db->where('id', $id)->limit(1)->get('kategori_seminar');
+    
+    return $query->result_array();
+  }
+
+  public function save_kategori_seminar($data)
+  {
+    return $this->db->insert('kategori_seminar', $data);
+  }
+
+  public function edit_kategori_seminar($data)
+  {
+    $query = $this->db->where('id', $data['id']);
+    return $query->update('kategori_seminar', $data);
   }
 
   public function get_seminar()

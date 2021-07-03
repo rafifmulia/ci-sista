@@ -5,8 +5,8 @@
     <nav aria-label="breadcrumb mb-0">
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="<?= base_url('admin/dashboard') ?>">Home</a></li>
-        <li class="breadcrumb-item"><a href="#">Dosen</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Daftar Dosen</li>
+        <li class="breadcrumb-item"><a href="#">Kategori Seminar</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Daftar Kategori Seminar</li>
       </ol>
     </nav>
   </div>
@@ -35,19 +35,18 @@
         <div class="card-body">
           <div class="row">
             <div class="col-12">
-              <button id="btnTambahDosen" class="btn btn-primary" data-toggle="modal" data-target="#modalTambahDosen">Tambah</button>
+              <button id="btnTambahKategori" class="btn btn-primary" data-toggle="modal" data-target="#modalTambahKategori">Tambah</button>
             </div>
           </div>
           <div class="row">
             <div class="col-12 text-center">
-              <h2>Daftar Dosen</h2>
+              <h2>Daftar Kategori Seminar</h2>
             </div>
             <div class="col-12">
-              <table id="daftarDosen" class="table table-striped table-bordered table-hover">
+              <table id="daftarKategori" class="table table-striped table-bordered table-hover">
                 <thead>
                   <tr>
                     <th>No</th>
-                    <th>NIDN</th>
                     <th>Nama</th>
                     <th>Status</th>
                     <th>Aksi</th>
@@ -55,10 +54,9 @@
                 </thead>
                 <tbody>
                   <?php $i = 0;
-                  foreach ($dosen as $d) { ?>
+                  foreach ($kategori as $d) { ?>
                     <tr>
                       <td data-id="<?= $d['id'] ?>"><?= ++$i ?></td>
-                      <td><?= $d['nidn'] ?></td>
                       <td data-name="<?= $d['nama'] ?>"><?= $d['nama'] ?></td>
                       <td data-status="<?= $d['is_active'] ?>">
                         <?php
@@ -70,7 +68,7 @@
                         ?>
                       </td>
                       <td>
-                        <button class="btn btn-info editDosen">
+                        <button class="btn btn-info editKategori">
                           <i class="fas fa-edit"></i>
                         </button>
                       </td>
@@ -90,22 +88,18 @@
 
 <!-- Modals -->
 <div>
-  <!-- Modal Add Dosen -->
-  <div class="modal fade" id="modalTambahDosen" tabindex="-1" role="dialog" aria-labelledby="modalTambahDosenTitle" aria-hidden="true">
+  <!-- Modal Add Kategori -->
+  <div class="modal fade" id="modalTambahKategori" tabindex="-1" role="dialog" aria-labelledby="modalTambahKategoriTitle" aria-hidden="true">
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
       <div class="modal-content">
-        <form action="<?= base_url('admin/save_dosen') ?>" method="POST">
+        <form action="<?= base_url('admin/save_kategori_seminar') ?>" method="POST">
           <div class="modal-header">
-            <h5 class="modal-title">Tambah Dosen Baru</h5>
+            <h5 class="modal-title">Tambah Kategori Baru</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <div class="form-group">
-              <label>NIDN</label>
-              <input type="text" id="add_nidn" name="nidn" class="form-control" required>
-            </div>
             <div class="form-group">
               <label>Nama</label>
               <input type="text" id="add_nama" name="nama" class="form-control" required>
@@ -116,7 +110,7 @@
               </div>
               <div class="col-10">
                 <div class="custom-control custom-switch">
-                  <input type="checkbox" name="status" class="custom-control-input" id="add_switchStatus">
+                  <input type="checkbox" name="is_active" class="custom-control-input" id="add_switchStatus">
                   <label id="add_lblSwitchStatus" class="custom-control-label" for="add_switchStatus">Nonaktif</label>
                 </div>
               </div>
@@ -131,25 +125,21 @@
     </div>
   </div>
 
-  <!-- Modal Edit Dosen -->
-  <div class="modal fade" id="modalEditDosen" tabindex="-1" role="dialog" aria-labelledby="modalEditDosenTitle" aria-hidden="true">
+  <!-- Modal Edit Kategori -->
+  <div class="modal fade" id="modalEditKategori" tabindex="-1" role="dialog" aria-labelledby="modalEditKategoriTitle" aria-hidden="true">
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
       <div class="modal-content">
-        <form id="edit_dosen" action="<?= base_url('admin/edit_dosen') ?>" method="POST">
+        <form id="edit_kategori" action="<?= base_url('admin/edit_kategori_seminar') ?>" method="POST">
           <div class="modal-header">
-            <h5 class="modal-title">Edit Dosen <span id="namaDosen" class="font-weight-bold"></span></h5>
+            <h5 class="modal-title">Edit Kategori <span id="namaKategori" class="font-weight-bold"></span></h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
             <div class="form-group">
-              <label>NIDN</label>
-              <input type="text" id="ed_id" name="id" class="form-control" hidden readonly>
-              <input type="text" id="ed_nidn" name="nidn" class="form-control" disabled required>
-            </div>
-            <div class="form-group">
               <label>Nama</label>
+              <input type="text" id="ed_id" name="id" class="form-control" hidden readonly>
               <input type="text" id="ed_nama" name="nama" class="form-control" required>
             </div>
             <div class="form-group row">

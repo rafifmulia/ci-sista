@@ -79,6 +79,19 @@
     </div>
   </li>
 
+  <li class="nav-item <?php if (strpos(current_url(), 'admin/daftar_kategori_seminar')) { echo 'active'; } ?>">
+    <a class="nav-link <?php if (!strpos(current_url(), 'admin/daftar_kategori_seminar')) { echo 'collapsed'; } ?>" href="#" data-toggle="collapse" data-target="#collapseKategoriSeminar" aria-expanded="true" aria-controls="collapseKategoriSeminar">
+      <i class="fas fa-calendar"></i>
+      <span>Kategori Seminar</span>
+    </a>
+    <div id="collapseKategoriSeminar" class="collapse <?php if (strpos(current_url(), 'admin/daftar_kategori_seminar')) { echo 'show'; } ?>" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <h6 class="collapse-header">Kelola Kategori Seminar:</h6>
+        <a class="collapse-item <?php if (strpos(current_url(), 'admin/daftar_kategori_seminar')) { echo 'active'; } ?>" href="<?= base_url('admin/daftar_kategori_seminar') ?>">Daftar Kategori Seminar</a>
+      </div>
+    </div>
+  </li>
+
   <li class="nav-item">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePenilaian" aria-expanded="true" aria-controls="collapsePenilaian">
       <i class="fas fa-fw fa-folder"></i>

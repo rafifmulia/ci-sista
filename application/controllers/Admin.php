@@ -465,6 +465,85 @@ class Admin extends CI_Controller
     redirect('admin/daftar_dosen');
   }
 
+  public function daftar_kategori_seminar()
+  {
+    $data = [
+      'kategori' => $this->M_data->get_kategori_seminar(),
+    ];
+
+    $this->template->ex_js('admin/ex_js/daftar_kategori_seminar');
+
+    $this->template->view('admin/daftar_kategori_seminar', $data);
+  }
+
+  public function detail_kategori_seminar()
+  {
+    header('Content-Type: application/json');
+
+    $id = $this->input->get('id');
+    $data = $this->M_data->detail_kategori_seminar($id);
+
+    if (count($data) < 1) {
+      echo json_encode([
+        'meta' => [
+          'code' => 400,
+          'message' => 'Fail get detail kategori seminar',
+        ]
+      ]);
+      return true;
+    }
+
+    echo json_encode([
+      'meta' => [
+        'code' => 200,
+        'message' => 'Success get detail kategori seminar',
+      ],
+      'data' => $data[0]
+    ]);
+    return true;
+  }
+
+  public function save_kategori_seminar()
+  {
+    $data = array(
+      'nama' => $this->input->post('nama'),
+      'is_active' => ($this->input->post('is_active') == 'on') ? 'yes' : 'not',
+    );
+
+    $this->load->model('M_data');
+    if ($this->input->post('nama') == '') {
+      $this->session->set_flashdata('warning', 'Nama tidak boleh kosong');
+    }
+
+    $save = $this->M_data->save_kategori_seminar($data);
+    if ($save) {
+      $this->session->set_flashdata('info', 'Berhasil menambahkan kategori baru');
+    } else {
+      $this->session->set_flashdata('warning', 'Gagal menambahkan kategori baru');
+    }
+
+    redirect('admin/daftar_kategori_seminar');
+  }
+
+  public function edit_kategori_seminar()
+  {
+    $data = array(
+      'id' => $this->input->post('id'),
+      'nama' => $this->input->post('nama'),
+      'is_active' => ($this->input->post('is_active') == 'on') ? 'yes' : 'not',
+    );
+
+    $this->load->model('M_data');
+    $reg = $this->M_data->edit_kategori_seminar($data);
+    if ($reg) {
+      $this->session->set_flashdata('info', 'Berhasil merubah kategori');
+    } else {
+      $this->session->set_flashdata('warning', 'Gagal merubah kategori');
+    }
+
+    redirect('admin/daftar_kategori_seminar');
+  }
+
   public function daftar_penilaian()
   {
     $data = [
