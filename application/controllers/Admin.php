@@ -547,11 +547,97 @@ class Admin extends CI_Controller
   public function daftar_penilaian()
   {
     $data = [
-      'user' => $this->M_data->get_user_not_verif(),
+      'penilaian' => $this->M_data->get_penilaian(),
     ];
 
     $this->template->ex_js('admin/ex_js/daftar_penilaian');
 
     $this->template->view('admin/daftar_penilaian', $data);
+  }
+
+  public function detail_penilaian()
+  {
+    header('Content-Type: application/json');
+
+    $id = $this->input->get('id');
+    $data = $this->M_data->detail_penilaian($id);
+
+    if (count($data) < 1) {
+      echo json_encode([
+        'meta' => [
+          'code' => 400,
+          'message' => 'Fail get detail penilaian',
+        ]
+      ]);
+      return true;
+    }
+
+    echo json_encode([
+      'meta' => [
+        'code' => 200,
+        'message' => 'Success get detail penilaian',
+      ],
+      'data' => $data[0]
+    ]);
+    return true;
+  }
+
+  public function save_penilaian()
+  {
+    $data = array(
+      'nama' => $this->input->post('nama'),
+      'keterangan' => $this->input->post('keterangan'),
+      'is_active' => ($this->input->post('is_active') == 'on') ? 'yes' : 'not',
+    );
+
+    $this->load->model('M_data');
+    if ($this->input->post('nama') == '') {
+      $this->session->set_flashdata('warning', 'Nama tidak boleh kosong');
+    } else if ($this->input->post('keterangan') == '') {
+      $this->session->set_flashdata('warning', 'Keterangan tidak boleh kosong');
+    }
+
+    $save = $this->M_data->save_penilaian($data);
+    if ($save) {
+      $this->session->set_flashdata('info', 'Berhasil menambahkan penilaian baru');
+    } else {
+      $this->session->set_flashdata('warning', 'Gagal menambahkan penilaian baru');
+    }
+
+    redirect('admin/daftar_penilaian');
+  }
+
+  public function edit_penilaian()
+  {
+    $data = array(
+      'id' => $this->input->post('id'),
+      'nama' => $this->input->post('nama'),
+      'keterangan' => $this->input->post('keterangan'),
+      'is_active' => ($this->input->post('is_active') == 'on') ? 'yes' : 'not',
+    );
+
+    $this->load->model('M_data');
+    $reg = $this->M_data->edit_penilaian($data);
+    if ($reg) {
+      $this->session->set_flashdata('info', 'Berhasil merubah penilaian');
+    } else {
+      $this->session->set_flashdata('warning', 'Gagal merubah penilaian');
+    }
+
+    redirect('admin/daftar_penilaian');
+  }
+
+  public function del_penilaian()
+  {
+    $id = $this->input->post('id');
+    $this->load->model('M_data');
+    $delete = $this->M_data->del_penilaian($id);
+    if ($delete) {
+      $this->session->set_flashdata('info', 'Berhasil menghapus penilaian');
+    } else {
+      $this->session->set_flashdata('warning', 'Gagal menghapus penilaian');
+    }
+
+    redirect('admin/daftar_penilaian');
   }
 }

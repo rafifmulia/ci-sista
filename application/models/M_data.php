@@ -44,21 +44,21 @@ class M_data extends CI_Model
   public function get_user()
   {
     $query = $this->db->where('lvl', 'user')->where('is_verif', 'yes')->get('user');
-    
+
     return $query->result_array();
   }
 
   public function get_user_not_verif()
   {
     $query = $this->db->where('lvl', 'user')->where('is_verif', 'not')->get('user');
-    
+
     return $query->result_array();
   }
 
   public function detail_user($id)
   {
     $query = $this->db->where('id_user', $id)->limit(1)->get('user');
-    
+
     return $query->result_array();
   }
 
@@ -76,21 +76,21 @@ class M_data extends CI_Model
   public function get_dosen()
   {
     $query = $this->db->get('dosen');
-    
+
     return $query->result_array();
   }
 
   public function get_active_dosen()
   {
     $query = $this->db->where('is_active', 'yes')->get('dosen');
-    
+
     return $query->result_array();
   }
 
   public function detail_dosen($id)
   {
     $query = $this->db->where('id', $id)->limit(1)->get('dosen');
-    
+
     return $query->result_array();
   }
 
@@ -120,21 +120,21 @@ class M_data extends CI_Model
   public function get_kategori_seminar()
   {
     $query = $this->db->get('kategori_seminar');
-    
+
     return $query->result_array();
   }
 
   public function get_active_kategori_seminar()
   {
     $query = $this->db->where('is_active', 'yes')->get('kategori_seminar');
-    
+
     return $query->result_array();
   }
 
   public function detail_kategori_seminar($id)
   {
     $query = $this->db->where('id', $id)->limit(1)->get('kategori_seminar');
-    
+
     return $query->result_array();
   }
 
@@ -156,7 +156,7 @@ class M_data extends CI_Model
     $query->from('seminar_ta as s');
     $query->join('kategori_seminar as cat', 's.kategori_seminar_id = cat.id');
     $exec = $query->get();
-    
+
     return $exec->result();
   }
 
@@ -172,7 +172,7 @@ class M_data extends CI_Model
     $query->where(['s.id' => $id]);
     $query->limit(1);
     $exec = $query->get();
-    
+
     return $exec->result();
   }
 
@@ -192,4 +192,34 @@ class M_data extends CI_Model
     return $this->db->delete('seminar_ta', ['id' => $id]);
   }
 
+  public function get_penilaian()
+  {
+    $query = $this->db->where('deleted_at', null)->get('penilaian');
+
+    return $query->result_array();
+  }
+
+  public function detail_penilaian($id)
+  {
+    $query = $this->db->where('id', $id)->limit(1)->get('penilaian');
+
+    return $query->result_array();
+  }
+
+  public function save_penilaian($data)
+  {
+    return $this->db->insert('penilaian', $data);
+  }
+
+  public function edit_penilaian($data)
+  {
+    $query = $this->db->where('id', $data['id']);
+    return $query->update('penilaian', $data);
+  }
+
+  public function del_penilaian($id)
+  {
+    $query = $this->db->where('id', $id);
+    return $query->update('penilaian', ['deleted_at' => date('Y-m-d H:i:s')]);
+  }
 }

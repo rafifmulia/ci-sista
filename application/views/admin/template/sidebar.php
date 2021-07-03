@@ -92,15 +92,15 @@
     </div>
   </li>
 
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePenilaian" aria-expanded="true" aria-controls="collapsePenilaian">
-      <i class="fas fa-fw fa-folder"></i>
+  <li class="nav-item <?php if (strpos(current_url(), 'admin/daftar_penilaian')) { echo 'active'; } ?>">
+    <a class="nav-link <?php if (!strpos(current_url(), 'admin/daftar_penilaian')) { echo 'collapsed'; } ?>" href="#" data-toggle="collapse" data-target="#collapsePenilaian" aria-expanded="true" aria-controls="collapsePenilaian">
+      <i class="fas fa-calendar"></i>
       <span>Penilaian</span>
     </a>
-    <div id="collapsePenilaian" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+    <div id="collapsePenilaian" class="collapse <?php if (strpos(current_url(), 'admin/daftar_penilaian')) { echo 'show'; } ?>" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
         <h6 class="collapse-header">Kelola Penilaian:</h6>
-        <a class="collapse-item" href="#">Daftar Penilaian</a>
+        <a class="collapse-item <?php if (strpos(current_url(), 'admin/daftar_penilaian')) { echo 'active'; } ?>" href="<?= base_url('admin/daftar_penilaian') ?>">Daftar Penilaian</a>
       </div>
     </div>
   </li>
