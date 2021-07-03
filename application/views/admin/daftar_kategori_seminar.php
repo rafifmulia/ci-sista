@@ -71,6 +71,9 @@
                         <button class="btn btn-info editKategori">
                           <i class="fas fa-edit"></i>
                         </button>
+                        <button class="btn btn-danger delKategori">
+                          <i class="fas fa-trash-alt"></i>
+                        </button>
                       </td>
                     </tr>
                   <?php } ?>

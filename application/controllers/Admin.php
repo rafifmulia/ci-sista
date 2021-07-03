@@ -465,6 +465,20 @@ class Admin extends CI_Controller
     redirect('admin/daftar_dosen');
   }
 
+  public function del_dosen()
+  {
+    $id = $this->input->post('id');
+    $this->load->model('M_data');
+    $delete = $this->M_data->del_dosen($id);
+    if ($delete) {
+      $this->session->set_flashdata('info', 'Berhasil menghapus dosen');
+    } else {
+      $this->session->set_flashdata('warning', 'Gagal menghapus dosen');
+    }
+
+    redirect('admin/daftar_dosen');
+  }
+
   public function daftar_kategori_seminar()
   {
     $data = [
@@ -539,6 +553,20 @@ class Admin extends CI_Controller
       $this->session->set_flashdata('info', 'Berhasil merubah kategori');
     } else {
       $this->session->set_flashdata('warning', 'Gagal merubah kategori');
+    }
+
+    redirect('admin/daftar_kategori_seminar');
+  }
+
+  public function del_kategori_seminar()
+  {
+    $id = $this->input->post('id');
+    $this->load->model('M_data');
+    $delete = $this->M_data->del_kategori_seminar($id);
+    if ($delete) {
+      $this->session->set_flashdata('info', 'Berhasil menghapus kategori seminnar');
+    } else {
+      $this->session->set_flashdata('warning', 'Gagal menghapus kategori seminnar');
     }
 
     redirect('admin/daftar_kategori_seminar');

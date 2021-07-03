@@ -109,4 +109,60 @@
       }
     })
   });
+
+  // hapus dosen
+  $('#daftarDosen').on('click', '.delDosen', function(e) {
+    let name = $(e.target).closest('tr').find('td[data-name]').data('name');
+
+    swalWithBootstrapButtons.fire({
+      title: 'Hapus dosen ' + name + ' ?',
+      text: "Data akan dihapus!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Iya',
+      cancelButtonText: 'Tidak',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        let id = $(e.target).closest('tr').find('td[data-id]').data('id');
+
+        $.ajax({
+          url: '<?= base_url('admin/del_dosen') ?>',
+          method: 'post',
+          data: {
+            id
+          },
+          crossDomain: true,
+          processData: true,
+          success: (data, textStatus, jqXHR) => {
+            swalWithBootstrapButtons.fire(
+              'Terhapus!',
+              'Data terhapus.',
+              'success'
+            ).then((result) => {
+              if (result.isConfirmed) {
+                window.location.reload()
+              }
+            })
+          },
+          error: (jqXHR, textStatus, error) => {
+            swalWithBootstrapButtons.fire(
+              'Error',
+              'Dosen gagal dihapus :)',
+              'error'
+            )
+          }
+        })
+      } else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel
+      ) {
+        swalWithBootstrapButtons.fire(
+          'Dibatalkan',
+          'Dosen tidak jadi dihapus :)',
+          'error'
+        )
+      }
+    })
+  });
 </script>

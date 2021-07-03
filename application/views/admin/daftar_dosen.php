@@ -73,6 +73,9 @@
                         <button class="btn btn-info editDosen">
                           <i class="fas fa-edit"></i>
                         </button>
+                        <button class="btn btn-danger delDosen">
+                          <i class="fas fa-trash-alt"></i>
+                        </button>
                       </td>
                     </tr>
                   <?php } ?>

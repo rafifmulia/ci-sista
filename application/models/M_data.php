@@ -75,14 +75,14 @@ class M_data extends CI_Model
 
   public function get_dosen()
   {
-    $query = $this->db->get('dosen');
+    $query = $this->db->where('deleted_at', null)->get('dosen');
 
     return $query->result_array();
   }
 
   public function get_active_dosen()
   {
-    $query = $this->db->where('is_active', 'yes')->get('dosen');
+    $query = $this->db->where('deleted_at', null)->where('is_active', 'yes')->get('dosen');
 
     return $query->result_array();
   }
@@ -117,16 +117,22 @@ class M_data extends CI_Model
     return $query->update('dosen', $data);
   }
 
+  public function del_dosen($id)
+  {
+    $query = $this->db->where('id', $id);
+    return $query->update('dosen', ['deleted_at' => date('Y-m-d H:i:s')]);
+  }
+
   public function get_kategori_seminar()
   {
-    $query = $this->db->get('kategori_seminar');
+    $query = $this->db->where('deleted_at', null)->get('kategori_seminar');
 
     return $query->result_array();
   }
 
   public function get_active_kategori_seminar()
   {
-    $query = $this->db->where('is_active', 'yes')->get('kategori_seminar');
+    $query = $this->db->where('deleted_at', null)->where('is_active', 'yes')->get('kategori_seminar');
 
     return $query->result_array();
   }
@@ -147,6 +153,12 @@ class M_data extends CI_Model
   {
     $query = $this->db->where('id', $data['id']);
     return $query->update('kategori_seminar', $data);
+  }
+
+  public function del_kategori_seminar($id)
+  {
+    $query = $this->db->where('id', $id);
+    return $query->update('kategori_seminar', ['deleted_at' => date('Y-m-d H:i:s')]);
   }
 
   public function get_seminar()
