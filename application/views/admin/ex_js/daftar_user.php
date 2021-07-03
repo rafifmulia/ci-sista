@@ -81,7 +81,7 @@
 
     swalWithBootstrapButtons.fire({
       title: 'Kamu yakin?',
-      text: "Data seminar akan dirubah ?",
+      text: "Data user akan dirubah ?",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Iya',
@@ -96,7 +96,7 @@
       ) {
         swalWithBootstrapButtons.fire(
           'Dibatalkan',
-          'Seminar tidak jadi dirubah :)',
+          'User tidak jadi dirubah :)',
           'info'
         )
       }

@@ -43,7 +43,14 @@ class M_data extends CI_Model
 
   public function get_user()
   {
-    $query = $this->db->where('lvl', 'user')->get('user');
+    $query = $this->db->where('lvl', 'user')->where('is_verif', 'yes')->get('user');
+    
+    return $query->result_array();
+  }
+
+  public function get_user_not_verif()
+  {
+    $query = $this->db->where('lvl', 'user')->where('is_verif', 'not')->get('user');
     
     return $query->result_array();
   }

@@ -322,8 +322,6 @@ class Admin extends CI_Controller
   {
     $data = array(
       'id_user' => $this->input->post('id'),
-      // 'username' => $this->input->post('username'),
-      // 'email' => $this->input->post('email'),
       'status' => ($this->input->post('status') == 'on') ? 'active' : 'not',
     );
 
@@ -354,10 +352,30 @@ class Admin extends CI_Controller
 
   public function verify_user()
   {
-    $data = [];
+    $data = [
+      'user' => $this->M_data->get_user_not_verif(),
+    ];
 
     $this->template->ex_js('admin/ex_js/verify_user');
 
     $this->template->view('admin/verify_user', $data);
+  }
+
+  public function act_verify_user()
+  {
+    $data = array(
+      'id_user' => $this->input->post('id'),
+      'is_verif' => ($this->input->post('verify') == 'on') ? 'yes' : 'not',
+    );
+
+    $this->load->model('M_data');
+    $reg = $this->M_data->edit_user($data);
+    if ($reg) {
+      $this->session->set_flashdata('info', 'Berhasil memverifikasi user');
+    } else {
+      $this->session->set_flashdata('warning', 'Gagal memverifikasi user');
+    }
+
+    redirect('admin/verify_user');
   }
 }

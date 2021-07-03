@@ -49,7 +49,6 @@
                   <tr>
                     <th>No</th>
                     <th>Username</th>
-                    <th>Role</th>
                     <th>Email</th>
                     <th>Status</th>
                     <th>Action</th>
@@ -61,7 +60,6 @@
                     <tr>
                       <td data-id="<?= $u['id_user'] ?>"><?= ++$i ?></td>
                       <td data-username="<?= $u['username'] ?>"><?= $u['username'] ?></td>
-                      <td data-role="<?= $u['lvl'] ?>"><?= $u['lvl'] ?></td>
                       <td data-email="<?= $u['email'] ?>"><?= $u['email'] ?></td>
                       <td data-status="<?= $u['status'] ?>">
                         <?php
@@ -202,12 +200,12 @@
             <form action="#">
               <div class="form-group">
                 <label>Username</label>
-                <input type="text" id="ed_id" name="id" class="form-control" hidden>
-                <input type="text" id="edtUsername" name="username" class="form-control" readonly required>
+                <input type="text" id="ed_id" name="id" class="form-control" hidden readonly>
+                <input type="text" id="edtUsername" name="username" class="form-control" disabled required>
               </div>
               <div class="form-group">
                 <label>Email</label>
-                <input type="email" id="edtEmail" name="email" class="form-control" readonly required>
+                <input type="email" id="edtEmail" name="email" class="form-control" disabled required>
               </div>
               <div class="form-group row">
                 <div class="col-2">

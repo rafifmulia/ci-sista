@@ -14,6 +14,22 @@
 
   <!-- Content Row -->
   <div class="row">
+    <div class="col-12">
+      <?php
+      if ($this->session->flashdata('danger')) {
+        echo '<div id="danger" class="alert alert-danger">' . $this->session->flashdata('danger') . '</div>';
+      }
+      if ($this->session->flashdata('warning')) {
+        echo '<div id="warning" class="alert alert-warning">' . $this->session->flashdata('warning') . '</div>';
+      }
+      if ($this->session->flashdata('info')) {
+        echo '<div id="info" class="alert alert-info">' . $this->session->flashdata('info') . '</div>';
+      }
+      ?>
+    </div>
+  </div>
+
+  <div class="row">
 
     <div class="col-12 mb-4">
       <div class="card shadow h-100 py-2">
@@ -29,12 +45,36 @@
                     <th>No</th>
                     <th>Username</th>
                     <th>Email</th>
-                    <th>Role</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
+                  <?php $i = 0;
+                  foreach ($user as $u) { ?>
+                    <tr>
+                      <td data-id="<?= $u['id_user'] ?>"><?= ++$i ?></td>
+                      <td data-username="<?= $u['username'] ?>"><?= $u['username'] ?></td>
+                      <td data-email="<?= $u['email'] ?>"><?= $u['email'] ?></td>
+                      <td data-status="<?= $u['status'] ?>">
+                        <?php
+                        if ($u['status'] == 'active') {
+                          echo '<span class="badge badge-info p-2">Terverifikasi</span>';
+                        } else {
+                          echo '<span class="badge badge-danger p-2">Belum Verif</span>';
+                        }
+                        ?>
+                      </td>
+                      <td>
+                        <button class="btn btn-info editUser">
+                          <i class="fas fa-eye"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  <?php } ?>
+                </tbody>
+
+                <!-- <tbody>
                   <tr>
                     <td data-id="1">1</td>
                     <td data-username="raga">raga</td>
@@ -63,7 +103,7 @@
                       </button>
                     </td>
                   </tr>
-                </tbody>
+                </tbody> -->
               </table>
             </div>
           </div>
@@ -81,28 +121,22 @@
   <div class="modal fade" id="modalEditUser" tabindex="-1" role="dialog" aria-labelledby="modalEditUserTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Verifikasi User <span id="lblEdtUsername" class="font-weight-bold"></span></h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form action="#">
+        <form id="verify_user" action="<?= base_url('admin/act_verify_user') ?>" method="POST">
+          <div class="modal-header">
+            <h5 class="modal-title">Verifikasi User <span id="lblEdtUsername" class="font-weight-bold"></span></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
             <div class="form-group">
               <label>Username</label>
-              <input type="text" id="verifUsername" class="form-control">
+              <input type="text" id="ed_id" name="id" class="form-control" readonly hidden>
+              <input type="text" id="username" name="username" class="form-control" disabled>
             </div>
             <div class="form-group">
               <label>Email</label>
-              <input type="email" id="verifEmail" class="form-control">
-            </div>
-            <div class="form-group">
-              <label>Role</label>
-              <select id="verifRole" class="form-control">
-                <option value="0">Pilih Role</option>
-                <option value="2">Reguler</option>
-              </select>
+              <input type="email" id="email" name="email" class="form-control" disabled>
             </div>
             <div class="form-group row">
               <div class="col-2">
@@ -110,17 +144,17 @@
               </div>
               <div class="col-10">
                 <div class="custom-control custom-switch">
-                  <input type="checkbox" class="custom-control-input" id="verifswitchStatus">
+                  <input type="checkbox" name="verify" class="custom-control-input" id="verifswitchStatus">
                   <label id="lblVerifSwitchStatus" class="custom-control-label" for="verifswitchStatus">-</label>
                 </div>
               </div>
             </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-          <button type="button" class="btn btn-primary">Simpan Perubahan</button>
-        </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+            <button type="submit" id="btnVerify" class="btn btn-primary">Simpan Perubahan</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
