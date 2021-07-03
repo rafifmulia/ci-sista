@@ -66,9 +66,31 @@ class M_data extends CI_Model
     return $exec->result();
   }
 
+  public function detail_seminar($id)
+  {
+    $query = $this->db->select('s.id,s.nim,s.nama_mahasiswa,s.prodi,s.semester,
+    s.kategori_seminar_id,s.judul,cat.nama as kategori_seminar,s.tanggal,s.jam,s.lokasi,
+    s.pembimbing_id,s.penguji1_id,s.penguji2_id,s.nilai_pembimbing,s.nilai_penguji1,s.nilai_penguji2,s.nilai_akhir
+    ');
+    $query->select('(SELECT SUM(p.id) FROM peserta_seminar as p WHERE p.seminar_id=id) AS total_peserta');
+    $query->from('seminar_ta as s');
+    $query->join('kategori_seminar as cat', 's.kategori_seminar_id = cat.id');
+    $query->where(['s.id' => $id]);
+    $query->limit(1);
+    $exec = $query->get();
+    
+    return $exec->result();
+  }
+
   public function save_seminar($data)
   {
     return $this->db->insert('seminar_ta', $data);
+  }
+
+  public function edit_seminar($data)
+  {
+    $query = $this->db->where('id', $data['id']);
+    return $query->update('seminar_ta', $data);
   }
 
   public function del_seminar($id)

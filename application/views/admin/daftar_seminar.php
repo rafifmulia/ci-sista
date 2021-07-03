@@ -354,58 +354,153 @@
 
   <!-- Modal Edit Seminar -->
   <div class="modal fade" id="modalEditSeminar" tabindex="-1" role="dialog" aria-labelledby="modalEditSeminarTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Edit Seminar <span id="namaPesertaSeminar" class="font-weight-bold"></span></h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form action="#">
-            <div class="form-group">
-              <label>NIM</label>
-              <input type="number" class="form-control">
-            </div>
-            <div class="form-group">
-              <label>Mahasiswa/i</label>
-              <input type="text" class="form-control">
-            </div>
-            <div class="form-group">
-              <label>Seminar</label>
-              <select class="form-control">
-                <option value="0">Pilih Seminar</option>
-                <option value="1">Proposal</option>
-                <option value="2">Seminar Hasil</option>
-                <option value="3">Seminar Akhir</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Waktu</label>
-              <div class="form-row">
-                <div class="col">
-                  <input type="date" class="form-control">
+        <form id="edit_seminar" action="<?= base_url('admin/edit_seminar') ?>" method="POST">
+          <div class="modal-header">
+            <h5 class="modal-title">Edit Seminar <span id="namaPesertaSeminar" class="font-weight-bold"></span></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-sm-12 col-md-6">
+                <div class="form-group row">
+                  <div class="col-sm-12 col-md-3 col-lg-2">
+                    <label style="font-size:15px;font-weight:bold;">NIM</label>
+                  </div>
+                  <div class="col-sm-12 col-md-9 col-lg-10">
+                    <input id="ed_id" name="id" type="number" class="form-control" hidden>
+                    <input id="ed_nim" name="nim" type="number" class="form-control">
+                  </div>
                 </div>
-                <div class="col">
-                  <input type="time" class="form-control">
+                <div class="form-group row">
+                  <div class="col-sm-12 col-md-3 col-lg-2">
+                    <label style="font-size:15px;font-weight:bold;">Nama</label>
+                  </div>
+                  <div class="col-sm-12 col-md-9 col-lg-10">
+                    <input id="ed_nama" name="nama" type="text" class="form-control">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-12 col-md-3 col-lg-2">
+                    <label style="font-size:15px;font-weight:bold;">Prodi</label>
+                  </div>
+                  <div class="col-sm-12 col-md-9 col-lg-10">
+                    <select id="ed_prodi" name="prodi" class="form-control">
+                      <option value="0">Pilih Prodi</option>
+                      <option value="si">Sistem Informasi</option>
+                      <option value="ti">Teknik Informatika</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-12 col-md-3 col-lg-2">
+                    <label style="font-size:15px;font-weight:bold;">Semester</label>
+                  </div>
+                  <div class="col-sm-12 col-md-9 col-lg-10">
+                    <select id="ed_semester" name="semester" class="form-control">
+                      <?php for ($i = 1; $i < 11; $i++) { ?>
+                        <option value="<?php echo $i ?>"><?php echo $i ?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-12 col-md-5 col-lg-4">
+                    <label style="font-size:15px;font-weight:bold;">Tanggal Seminar</label>
+                  </div>
+                  <div class="col-sm-12 col-md-7 col-lg-8">
+                    <input id="ed_tglSeminar" name="tgl" type="date" class="form-control">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-12 col-md-5 col-lg-4">
+                    <label style="font-size:15px;font-weight:bold;">Jam Seminar</label>
+                  </div>
+                  <div class="col-sm-12 col-md-7 col-lg-8">
+                    <input id="ed_jamSeminar" name="jam" type="time" class="form-control">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-12 col-md-4 col-lg-3">
+                    <label style="font-size:15px;font-weight:bold;">Ruangan</label>
+                  </div>
+                  <div class="col-sm-12 col-md-8 col-lg-9">
+                    <input id="ed_ruangan" type="text" name="ruangan" class="form-control">
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6">
+                <div class="form-group row">
+                  <div class="col-sm-12 col-md-4 col-lg-3">
+                    <label style="font-size:15px;font-weight:bold;">Judul TA</label>
+                  </div>
+                  <div class="col-sm-12 col-md-8 col-lg-9">
+                    <textarea id="ed_judulTA" name="judul" class="form-control"></textarea>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-12 col-md-4 col-lg-3">
+                    <label style="font-size:15px;font-weight:bold;">Seminar</label>
+                  </div>
+                  <div class="col-sm-12 col-md-8 col-lg-9">
+                    <select id="ed_kategori_seminar" name="kategori_seminar" class="form-control">
+                      <option value="0">Pilih Kategori</option>
+                      <?php foreach ($get_kategori_seminar as $ks) { ?>
+                        <option value="<?php echo $ks['id'] ?>"><?php echo $ks['nama'] ?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-12 col-md-4 col-lg-4">
+                    <label style="font-size:15px;font-weight:bold;">Pembimbing</label>
+                  </div>
+                  <div class="col-sm-12 col-md-8 col-lg-8">
+                    <select id="ed_pembimbing" name="pembimbing" class="form-control">
+                      <option value="0">Pilih Pembimbing</option>
+                      <?php foreach ($get_dosen as $p) { ?>
+                        <option value="<?php echo $p['id'] ?>"><?php echo $p['nama'] ?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-12 col-md-4 col-lg-3">
+                    <label style="font-size:15px;font-weight:bold;">Penguji1</label>
+                  </div>
+                  <div class="col-sm-12 col-md-8 col-lg-9">
+                    <select id="ed_penguji1" name="penguji1" class="form-control">
+                      <option value="0">Pilih Penguji1</option>
+                      <?php foreach ($get_dosen as $p) { ?>
+                        <option value="<?php echo $p['id'] ?>"><?php echo $p['nama'] ?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-12 col-md-4 col-lg-3">
+                    <label style="font-size:15px;font-weight:bold;">Penguji2</label>
+                  </div>
+                  <div class="col-sm-12 col-md-8 col-lg-9">
+                    <select id="ed_penguji2" name="penguji2" class="form-control">
+                      <option value="0">Pilih Penguji2</option>
+                      <?php foreach ($get_dosen as $p) { ?>
+                        <option value="<?php echo $p['id'] ?>"><?php echo $p['nama'] ?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="form-group">
-              <label>Ruangan</label>
-              <select class="form-control">
-                <option value="0">Pilih Ruangan</option>
-                <option value="1">Zoom</option>
-                <option value="2">Google Meet</option>
-              </select>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-          <button type="button" class="btn btn-primary">Simpan Perubahan</button>
-        </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+            <button type="submit" id="sendEdSeminar" class="btn btn-primary">Simpan Perubahan</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
