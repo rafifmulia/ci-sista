@@ -66,15 +66,15 @@
   </div>
 
   <!-- Nav Item -->
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDosen" aria-expanded="true" aria-controls="collapseDosen">
-      <i class="fas fa-fw fa-folder"></i>
+  <li class="nav-item <?php if (strpos(current_url(), 'admin/daftar_dosen')) { echo 'active'; } ?>">
+    <a class="nav-link <?php if (!strpos(current_url(), 'admin/daftar_dosen')) { echo 'collapsed'; } ?>" href="#" data-toggle="collapse" data-target="#collapseDosen" aria-expanded="true" aria-controls="collapseDosen">
+      <i class="fas fa-calendar"></i>
       <span>Dosen</span>
     </a>
-    <div id="collapseDosen" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+    <div id="collapseDosen" class="collapse <?php if (strpos(current_url(), 'admin/daftar_dosen')) { echo 'show'; } ?>" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
         <h6 class="collapse-header">Kelola Dosen:</h6>
-        <a class="collapse-item" href="#">Daftar Dosen</a>
+        <a class="collapse-item <?php if (strpos(current_url(), 'admin/daftar_dosen')) { echo 'active'; } ?>" href="<?= base_url('admin/daftar_dosen') ?>">Daftar Dosen</a>
       </div>
     </div>
   </li>

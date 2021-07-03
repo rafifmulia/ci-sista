@@ -197,28 +197,26 @@
             </button>
           </div>
           <div class="modal-body">
-            <form action="#">
-              <div class="form-group">
-                <label>Username</label>
-                <input type="text" id="ed_id" name="id" class="form-control" hidden readonly>
-                <input type="text" id="edtUsername" name="username" class="form-control" disabled required>
+            <div class="form-group">
+              <label>Username</label>
+              <input type="text" id="ed_id" name="id" class="form-control" hidden readonly>
+              <input type="text" id="edtUsername" name="username" class="form-control" disabled required>
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" id="edtEmail" name="email" class="form-control" disabled required>
+            </div>
+            <div class="form-group row">
+              <div class="col-2">
+                <label>Status :</label>
               </div>
-              <div class="form-group">
-                <label>Email</label>
-                <input type="email" id="edtEmail" name="email" class="form-control" disabled required>
-              </div>
-              <div class="form-group row">
-                <div class="col-2">
-                  <label>Status :</label>
-                </div>
-                <div class="col-10">
-                  <div class="custom-control custom-switch">
-                    <input type="checkbox" name="status" class="custom-control-input" id="edtswitchStatus" required>
-                    <label id="lblEdtSwitchStatus" class="custom-control-label" for="edtswitchStatus">-</label>
-                  </div>
+              <div class="col-10">
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" name="status" class="custom-control-input" id="edtswitchStatus" required>
+                  <label id="lblEdtSwitchStatus" class="custom-control-label" for="edtswitchStatus">-</label>
                 </div>
               </div>
-            </form>
+            </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>

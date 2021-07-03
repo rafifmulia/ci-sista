@@ -10,7 +10,7 @@ class M_data extends CI_Model
       $sql = "SELECT * FROM user WHERE email = '$email' ";
       $query = $this->db->query($sql);
       $result = $query->row_array();
-      return ($query->num_rows() === 1 ? true : false);
+      return ($query->num_rows() > 0 ? true : false);
     } else {
       return false;
     }
@@ -80,7 +80,51 @@ class M_data extends CI_Model
     return $query->result_array();
   }
 
+  public function get_active_dosen()
+  {
+    $query = $this->db->where('is_active', 'yes')->get('dosen');
+    
+    return $query->result_array();
+  }
+
+  public function detail_dosen($id)
+  {
+    $query = $this->db->where('id', $id)->limit(1)->get('dosen');
+    
+    return $query->result_array();
+  }
+
+  public function is_nidn_used($nidn)
+  {
+    if ($nidn) {
+      $sql = "SELECT * FROM dosen WHERE nidn = '$nidn' ";
+      $query = $this->db->query($sql);
+      $result = $query->row_array();
+      return ($query->num_rows() > 0 ? true : false);
+    } else {
+      return false;
+    }
+  }
+
+  public function save_dosen($data)
+  {
+    return $this->db->insert('dosen', $data);
+  }
+
+  public function edit_dosen($data)
+  {
+    $query = $this->db->where('id', $data['id']);
+    return $query->update('dosen', $data);
+  }
+
   public function get_kategori_seminar()
+  {
+    $query = $this->db->get('kategori_seminar');
+    
+    return $query->result_array();
+  }
+
+  public function get_active_kategori_seminar()
   {
     $query = $this->db->get('kategori_seminar');
     

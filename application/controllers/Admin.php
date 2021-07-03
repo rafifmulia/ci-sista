@@ -27,8 +27,8 @@ class Admin extends CI_Controller
   public function daftar_seminar()
   {
     $data = [
-      'get_dosen' => $this->M_data->get_dosen(),
-      'get_kategori_seminar' => $this->M_data->get_kategori_seminar(),
+      'get_dosen' => $this->M_data->get_active_dosen(),
+      'get_kategori_seminar' => $this->M_data->get_active_kategori_seminar(),
       'daftar_seminar' => $this->M_data->get_seminar(),
     ];
 
@@ -377,5 +377,102 @@ class Admin extends CI_Controller
     }
 
     redirect('admin/verify_user');
+  }
+
+  public function daftar_dosen()
+  {
+    $data = [
+      'dosen' => $this->M_data->get_dosen(),
+    ];
+
+    $this->template->ex_js('admin/ex_js/daftar_dosen');
+
+    $this->template->view('admin/daftar_dosen', $data);
+  }
+
+  public function detail_dosen()
+  {
+    header('Content-Type: application/json');
+
+    $id = $this->input->get('id');
+    $data = $this->M_data->detail_dosen($id);
+
+    if (count($data) < 1) {
+      echo json_encode([
+        'meta' => [
+          'code' => 400,
+          'message' => 'Fail get detail dosen',
+        ]
+      ]);
+      return true;
+    }
+
+    echo json_encode([
+      'meta' => [
+        'code' => 200,
+        'message' => 'Success get detail dosen',
+      ],
+      'data' => $data[0]
+    ]);
+    return true;
+  }
+
+  public function save_dosen()
+  {
+    $data = array(
+      'nidn' => $this->input->post('nidn'),
+      'nama' => $this->input->post('nama'),
+      'is_active' => ($this->input->post('status') == 'on') ? 'yes' : 'not',
+    );
+
+    $this->load->model('M_data');
+    if ($this->input->post('nidn') == '') {
+      $this->session->set_flashdata('warning', 'NIDN tidak boleh kosong');
+    } else if ($this->input->post('nama') == '') {
+      $this->session->set_flashdata('warning', 'Nama tidak boleh kosong');
+    }
+
+    $check = $this->M_data->is_nidn_used($data['nidn']);
+    if ($check) {
+      $this->session->set_flashdata('warning', 'NIDN sudah digunakan');
+    } else {
+      $save = $this->M_data->save_dosen($data);
+      if ($save) {
+        $this->session->set_flashdata('info', 'Berhasil menambahkan dosen baru');
+      } else {
+        $this->session->set_flashdata('warning', 'Gagal menambahkan dosen baru');
+      }
+    }
+
+    redirect('admin/daftar_dosen');
+  }
+
+  public function edit_dosen()
+  {
+    $data = array(
+      'id' => $this->input->post('id'),
+      'is_active' => ($this->input->post('is_active') == 'on') ? 'yes' : 'not',
+    );
+
+    $this->load->model('M_data');
+    $reg = $this->M_data->edit_dosen($data);
+    if ($reg) {
+      $this->session->set_flashdata('info', 'Berhasil merubah dosen');
+    } else {
+      $this->session->set_flashdata('warning', 'Gagal merubah dosen');
+    }
+
+    redirect('admin/daftar_dosen');
+  }
+
+  public function daftar_penilaian()
+  {
+    $data = [
+      'user' => $this->M_data->get_user_not_verif(),
+    ];
+
+    $this->template->ex_js('admin/ex_js/daftar_penilaian');
+
+    $this->template->view('admin/daftar_penilaian', $data);
   }
 }
