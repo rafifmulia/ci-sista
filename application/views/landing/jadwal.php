@@ -20,10 +20,27 @@
                   </tr>
                 </thead>
                 <tbody>
+                  <?php $i = 0;
+                  foreach ($daftar_seminar as $s) { ?>
+                    <tr>
+                      <td data-id="<?= $s->id ?>"><?= ++$i ?></td>
+                      <td><?= $s->nim ?></td>
+                      <td data-name="<?= $s->nama_mahasiswa ?>">
+                        <a href="<?= base_url('landing/detail_jadwal_seminar').'?id='.$s->id ?>" class="text-info">
+                          <?= $s->nama_mahasiswa ?>
+                        </a>
+                      </td>
+                      <td><?= $s->kategori_seminar ?></td>
+                      <td><?= substr($s->jam, 0, -3) ?> <?= $s->tanggal ?></td>
+                      <td><?= $s->lokasi ?></td>
+                    </tr>
+                  <?php } ?>
+                </tbody>
+                <!-- <tbody>
                   <tr>
                     <td data-id="1">1</td>
                     <td>0102041</td>
-                    <td data-name="Diego Armando"><a href="<?= base_url('landing/detail_jadwal_seminar') ?>">Diego Armando</a></td>
+                    <td data-name="Diego Armando"><a href="#">Diego Armando</a></td>
                     <td>Proposal</td>
                     <td>10.00 04-01-2021</td>
                     <td>Google Meet</td>
@@ -31,7 +48,7 @@
                   <tr>
                     <td data-id="2">2</td>
                     <td>0102042</td>
-                    <td data-name="Ahmad Budiman"><a href="<?= base_url('landing/detail_jadwal_seminar') ?>">Ahmad Budiman</a></td>
+                    <td data-name="Ahmad Budiman"><a href="#">Ahmad Budiman</a></td>
                     <td>Seminar Hasil</td>
                     <td>10.00 04-01-2021</td>
                     <td>Zoom</td>
@@ -39,12 +56,12 @@
                   <tr>
                     <td data-id="3">3</td>
                     <td>0102043</td>
-                    <td data-name="Fredelina Putri"><a href="<?= base_url('landing/detail_jadwal_seminar') ?>">Fredelina Putri</a></td>
+                    <td data-name="Fredelina Putri"><a href="#">Fredelina Putri</a></td>
                     <td>Seminar Akhir</td>
                     <td>10.00 04-01-2021</td>
                     <td>B2034</td>
                   </tr>
-                </tbody>
+                </tbody> -->
               </table>
             </div>
           </div>

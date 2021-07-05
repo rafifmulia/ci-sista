@@ -9,6 +9,7 @@ class Landing extends CI_Controller
     parent::__construct();
     $this->load->library('template', ['load'=>$this->load]);
     $this->template->landing();
+    $this->load->model('M_data');
   }
 
   public function index()
@@ -27,7 +28,9 @@ class Landing extends CI_Controller
 
   public function jadwal()
   {
-    $data = [];
+    $data = [
+      'daftar_seminar' => $this->M_data->get_seminar(),
+    ];
 
     $this->template->ex_js('landing/ex_js/jadwal');
 
@@ -36,7 +39,16 @@ class Landing extends CI_Controller
 
   public function detail_jadwal_seminar()
   {
-    $data = [];
+    $id = $this->input->get('id');
+    
+    $data = [
+      'detail' => $this->M_data->detail_seminar($id),
+    ];
+    
+    if (count($data['detail']) < 1) {
+      $this->load->view('errors/html/error_general', ['heading'=>'Kamu jahil!', 'message'=>'<p>Jangan diubah-ubah ya :)</p>']);
+      return false;
+    }
 
     $this->template->view('landing/detail_jadwal_seminar', $data);
   }
@@ -52,11 +64,90 @@ class Landing extends CI_Controller
 
   public function daftar_seminar()
   {
-    $data = [];
+    $data = [
+      'get_dosen' => $this->M_data->get_active_dosen(),
+      'get_kategori_seminar' => $this->M_data->get_active_kategori_seminar(),
+    ];
 
-    $this->template->ex_js('landing/ex_js/daftar_seminar');
+    // $this->template->ex_js('landing/ex_js/daftar_seminar');
 
     $this->template->view('landing/daftar_seminar', $data);
+  }
+
+  public function save_seminar()
+  {
+    $data = array(
+      'nim' => $this->input->post('nim'),
+      'nama_mahasiswa' => $this->input->post('nama'),
+      'semester' => $this->input->post('semester'),
+      'prodi' => $this->input->post('prodi'),
+      'judul' => $this->input->post('judul'),
+      'kategori_seminar_id' => $this->input->post('kategori_seminar'),
+      'pembimbing_id' => $this->input->post('pembimbing'),
+      'penguji1_id' => $this->input->post('penguji1'),
+      'penguji2_id' => $this->input->post('penguji2'),
+      'jam' => $this->input->post('jam'),
+      'tanggal' => $this->input->post('tgl'),
+      'lokasi' => $this->input->post('ruangan'),
+    );
+
+    // validate data
+    if ($data['nim'] == null) {
+      $this->session->set_flashdata('warning', 'Silahkan isi nim');
+      redirect('landing/daftar_seminar');
+    }
+    if ($data['nama_mahasiswa'] == null) {
+      $this->session->set_flashdata('warning', 'Silahkan isi nama mahasiswa');
+      redirect('landing/daftar_seminar');
+    }
+    if ($data['prodi'] == 'ti') {
+    } else if ($data['prodi'] == 'si') {
+    } else {
+      $this->session->set_flashdata('warning', 'Silahkan pilih prodi');
+      redirect('landing/daftar_seminar');
+    }
+    if ($data['tanggal'] == null) {
+      $this->session->set_flashdata('warning', 'Silahkan isi tanggal seminar');
+      redirect('landing/daftar_seminar');
+    }
+    if ($data['jam'] == null) {
+      $this->session->set_flashdata('warning', 'Silahkan isi jam seminar');
+      redirect('landing/daftar_seminar');
+    }
+    if ($data['lokasi'] == null) {
+      $this->session->set_flashdata('warning', 'Silahkan isi ruangan');
+      redirect('landing/daftar_seminar');
+    }
+    if ($data['judul'] == null) {
+      $this->session->set_flashdata('warning', 'Silahkan isi judul');
+      redirect('landing/daftar_seminar');
+    }
+    if ($data['kategori_seminar_id'] == 0) {
+      $this->session->set_flashdata('warning', 'Silahkan pilih kategori seminar');
+      redirect('landing/daftar_seminar');
+    }
+    if ($data['pembimbing_id'] == 0) {
+      $this->session->set_flashdata('warning', 'Silahkan pilih pembimbing');
+      redirect('landing/daftar_seminar');
+    }
+    if ($data['penguji1_id'] == 0) {
+      $this->session->set_flashdata('warning', 'Silahkan pilih penguji1');
+      redirect('landing/daftar_seminar');
+    }
+    if ($data['penguji2_id'] == 0) {
+      $this->session->set_flashdata('warning', 'Silahkan pilih penguji2');
+      redirect('landing/daftar_seminar');
+    }
+
+    $this->load->model('M_data');
+    $save = $this->M_data->save_seminar($data);
+    if ($save) {
+      $this->session->set_flashdata('info', 'Berhasil membuat seminar');
+    } else {
+      $this->session->set_flashdata('warning', 'Gagal membuat seminar');
+    }
+
+    redirect('landing/daftar_seminar');
   }
 
   public function about()

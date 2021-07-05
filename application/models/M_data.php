@@ -4,6 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class M_data extends CI_Model
 {
 
+  // user
   public function is_email_used($email)
   {
     if ($email) {
@@ -73,6 +74,7 @@ class M_data extends CI_Model
     return $this->db->delete('user', ['id_user' => $id]);
   }
 
+  // dosen
   public function get_dosen()
   {
     $query = $this->db->where('deleted_at', null)->get('dosen');
@@ -123,6 +125,7 @@ class M_data extends CI_Model
     return $query->update('dosen', ['deleted_at' => date('Y-m-d H:i:s')]);
   }
 
+  // kategori seminar
   public function get_kategori_seminar()
   {
     $query = $this->db->where('deleted_at', null)->get('kategori_seminar');
@@ -161,6 +164,7 @@ class M_data extends CI_Model
     return $query->update('kategori_seminar', ['deleted_at' => date('Y-m-d H:i:s')]);
   }
 
+  // daftar seminar
   public function get_seminar()
   {
     $query = $this->db->select('s.id,s.nim,s.nama_mahasiswa,s.tanggal,s.jam,s.lokasi,cat.nama as kategori_seminar');
@@ -169,7 +173,7 @@ class M_data extends CI_Model
     $query->join('kategori_seminar as cat', 's.kategori_seminar_id = cat.id');
     $exec = $query->get();
 
-    return $exec->result();
+    return $exec->result(); 
   }
 
   public function detail_seminar($id)
@@ -179,6 +183,9 @@ class M_data extends CI_Model
     s.pembimbing_id,s.penguji1_id,s.penguji2_id,s.nilai_pembimbing,s.nilai_penguji1,s.nilai_penguji2,s.nilai_akhir
     ');
     $query->select('(SELECT SUM(p.id) FROM peserta_seminar as p WHERE p.seminar_id=id) AS total_peserta');
+    $query->select('(SELECT d.nama FROM dosen as d WHERE d.id=s.pembimbing_id) AS nama_pembimbing');
+    $query->select('(SELECT d.nama FROM dosen as d WHERE d.id=s.penguji1_id) AS nama_penguji1');
+    $query->select('(SELECT d.nama FROM dosen as d WHERE d.id=s.penguji2_id) AS nama_penguji2');
     $query->from('seminar_ta as s');
     $query->join('kategori_seminar as cat', 's.kategori_seminar_id = cat.id');
     $query->where(['s.id' => $id]);
@@ -204,6 +211,7 @@ class M_data extends CI_Model
     return $this->db->delete('seminar_ta', ['id' => $id]);
   }
 
+  // penilaian
   public function get_penilaian()
   {
     $query = $this->db->where('deleted_at', null)->get('penilaian');

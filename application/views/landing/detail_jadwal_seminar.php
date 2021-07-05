@@ -30,7 +30,7 @@
                             <label><b style="font-size: 20px">NIM :</b></label>
                           </div>
                           <div class="col-12">
-                            <label style="font-size: 20px">0102041</label>
+                            <label style="font-size: 20px"><?= $detail[0]->nim ?></label>
                           </div>
                         </div>
                         <div class="form-group row">
@@ -38,7 +38,7 @@
                             <label><b style="font-size: 20px">Nama :</b></label>
                           </div>
                           <div class="col-12">
-                            <label style="font-size: 20px">Diego Armando</label>
+                            <label style="font-size: 20px"><?= $detail[0]->nama_mahasiswa ?></label>
                           </div>
                         </div>
                         <div class="form-group row">
@@ -46,7 +46,7 @@
                             <label><b style="font-size: 20px">Prodi :</b></label>
                           </div>
                           <div class="col-12">
-                            <label style="font-size: 20px">Tekhnik Informatika</label>
+                            <label style="font-size: 20px"><?= ($detail[0]->prodi == 'ti') ? 'Teknik Informatika' : 'Sistem Informasi' ?></label>
                           </div>
                         </div>
                         <div class="form-group row">
@@ -54,8 +54,7 @@
                             <label><b style="font-size: 20px">Judul :</b></label>
                           </div>
                           <div class="col-12">
-                            <label style="font-size: 20px">Bangun Aplikasi Seminar Tugas Akhir Berbasis Web
-                              Menggunakan MVC Framework</label>
+                            <label style="font-size: 20px"><?= $detail[0]->judul ?></label>
                           </div>
                         </div>
 
@@ -66,7 +65,7 @@
                             <label><b style="font-size: 20px">Waktu :</b></label>
                           </div>
                           <div class="col-12">
-                            <label style="font-size: 20px">Senin, 04 Januari 2020 10:10</label>
+                            <label style="font-size: 20px"><?= substr($detail[0]->jam, 0, -3) ?> <?= $detail[0]->tanggal ?></label>
                           </div>
 
                         </div>
@@ -75,7 +74,7 @@
                             <label><b style="font-size: 20px">Ruang :</b></label>
                           </div>
                           <div class="col-12">
-                            <label style="font-size: 20px">Zoom Online</label>
+                            <label style="font-size: 20px"><?= $detail[0]->lokasi ?></label>
                           </div>
                         </div>
                         <div class="form-group row">
@@ -83,7 +82,7 @@
                             <label><b style="font-size: 20px">Pembimbing :</b></label>
                           </div>
                           <div class="col-12">
-                            <label style="font-size: 20px">Sirojul Munir S.Si, M.Kom</label>
+                            <label style="font-size: 20px"><?= $detail[0]->nama_pembimbing ?></label>
                           </div>
                         </div>
                         <div class="form-group row">
@@ -91,7 +90,15 @@
                             <label><b style="font-size: 19px">Penguji :</b></label>
                           </div>
                           <div class="col-12">
-                            <label style="font-size: 20px">Ahmad Rio M.Si</label>
+                            <label style="font-size: 20px"><?= $detail[0]->nama_penguji1 ?></label>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <div class="col-12">
+                            <label><b style="font-size: 19px">Penguj2 :</b></label>
+                          </div>
+                          <div class="col-12">
+                            <label style="font-size: 20px"><?= $detail[0]->nama_penguji2 ?></label>
                           </div>
                         </div>
 
