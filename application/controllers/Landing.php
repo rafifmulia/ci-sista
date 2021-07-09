@@ -42,6 +42,7 @@ class Landing extends CI_Controller
     $id = $this->input->get('id');
     
     $data = [
+      'id' => $id,
       'detail' => $this->M_data->detail_seminar($id),
     ];
     
@@ -55,11 +56,81 @@ class Landing extends CI_Controller
 
   public function daftar_peserta()
   {
-    $data = [];
+    $id = $this->input->get('id');
+    
+    $data = [
+      'seminar_id' => $id,
+      'detail' => $this->M_data->detail_seminar($id),
+    ];
 
-    $this->template->ex_js('landing/ex_js/daftar_peserta');
+    if (count($data['detail']) < 1) {
+      $this->load->view('errors/html/error_general', ['heading'=>'Kamu jahil!', 'message'=>'<p>Jangan diubah-ubah ya :)</p>']);
+      return false;
+    }
+
+    // $this->template->ex_js('landing/ex_js/daftar_peserta');
 
     $this->template->view('landing/daftar_peserta', $data);
+  }
+
+  public function save_peserta()
+  {
+    $data = array(
+      'seminar_id' => $this->input->post('seminar_id'),
+      'nim' => $this->input->post('nim'),
+      'nama' => $this->input->post('nama'),
+      'prodi' => $this->input->post('prodi'),
+      'program' => $this->input->post('program'),
+      'status' => 'no',
+    );
+
+    // validate data
+    if ($data['seminar_id'] == null) {
+      $this->session->set_flashdata('warning', 'Jangan diubah-ubah ya');
+      redirect('landing/daftar_peserta?id='.$data['seminar_id']);
+    }
+    if ($data['nim'] == null) {
+      $this->session->set_flashdata('warning', 'Silahkan isi nim');
+      redirect('landing/daftar_peserta?id='.$data['seminar_id']);
+    }
+    if ($data['nama'] == null) {
+      $this->session->set_flashdata('warning', 'Silahkan isi nama mahasiswa');
+      redirect('landing/daftar_peserta?id='.$data['seminar_id']);
+    }
+    if ($data['prodi'] == 'ti') {
+    } else if ($data['prodi'] == 'si') {
+    } else {
+      $this->session->set_flashdata('warning', 'Silahkan pilih prodi');
+      redirect('landing/daftar_peserta?id='.$data['seminar_id']);
+    }
+    if ($data['program'] == 's1') {
+      $data['program'] = 'S1';
+    } else if ($data['program'] == 's1') {
+      $data['program'] = 'S1 Fast Track';
+    } else if ($data['program'] == 's2') {
+      $data['program'] = 'S2';
+    } else if ($data['program'] == 'd3') {
+      $data['program'] = 'D3';
+    } else {
+      $this->session->set_flashdata('warning', 'Silahkan pilih program');
+      redirect('landing/daftar_peserta?id='.$data['seminar_id']);
+    }
+
+    $this->load->model('M_data');
+    $check = $this->M_data->check_peserta($data['seminar_id'], $data['nim']);
+    if ($check) {
+      $this->session->set_flashdata('info', 'Kamu telah terdaftar sebagai peserta');
+      redirect('landing/daftar_peserta?id='.$data['seminar_id']);
+    }
+
+    $save = $this->M_data->save_peserta($data);
+    if ($save) {
+      $this->session->set_flashdata('info', 'Berhasil daftar sebagai peserta');
+    } else {
+      $this->session->set_flashdata('warning', 'Gagal daftar sebagai peserta');
+    }
+
+    redirect('landing/daftar_peserta?id='.$data['seminar_id']);
   }
 
   public function daftar_seminar()

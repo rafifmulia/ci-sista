@@ -104,7 +104,7 @@
 
                       </div>
                       <div class="col-12">
-                        <button class="btn btn-primary" id="btnDaftar"><a href="<?= base_url('landing/daftar_peserta') ?>" class="nav-link" style="color: white">Daftar Peserta</a></button>
+                        <button class="btn btn-primary" id="btnDaftar"><a href="<?= base_url('landing/daftar_peserta').'?id='.$id ?>" class="nav-link" style="color: white">Daftar Peserta</a></button>
                       </div>
                     </div>
                   </form>

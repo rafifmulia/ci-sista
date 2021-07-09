@@ -27,7 +27,7 @@ class Auth extends CI_Controller
     $this->load->model('M_data');
     $data = $this->M_data->check_login($email, $password);
     if ($data) {
-      if ($data['is_verif'] != 'active') {
+      if ($data['is_verif'] != 'yes') {
         $this->session->set_flashdata('warning', 'Akun kamu belum terverifikasi');
         redirect('auth/login');
       }

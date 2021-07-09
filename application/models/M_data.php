@@ -242,4 +242,23 @@ class M_data extends CI_Model
     $query = $this->db->where('id', $id);
     return $query->update('penilaian', ['deleted_at' => date('Y-m-d H:i:s')]);
   }
+
+  // peserta
+  public function save_peserta($data)
+  {
+    return $this->db->insert('peserta_seminar', $data);
+  }
+
+  public function check_peserta($seminar_id, $nim)
+  {
+    $sql = "SELECT * FROM peserta_seminar WHERE seminar_id = '$seminar_id' AND nim = '$nim'";
+    $query = $this->db->query($sql);
+    $result = $query->result_array();
+
+    if (count($result) > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

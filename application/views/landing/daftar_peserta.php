@@ -11,7 +11,7 @@
             <div class="content mt-4">
               <div class="row mt-3">
                 <div class="col-12">
-                  <form action="#">
+                  <form action="<?= base_url('landing/save_peserta') ?>" method="POST">
 
                     <div class="d-sm-flex align-items-center justify-content-end mb-4">
                       <nav aria-label="breadcrumb mb-0">
@@ -28,59 +28,72 @@
                       <div class="col-12">
                         <div class="form-group">
                           <label><b style="font-size: 20px">Pembicara :</b></label>
-                          <label style="font-size: 20px">Raga Murtadha</label>
+                          <label style="font-size: 20px"><?= $detail[0]->nama_mahasiswa ?></label>
                         </div>
                         <div class="form-group">
                           <label><b style="font-size: 20px">Waktu :</b></label>
-                          <label style="font-size: 20px">Senin, 04 Januari 2020 10:10</label>
+                          <label style="font-size: 20px"><?= substr($detail[0]->jam, 0, -3) ?> <?= $detail[0]->tanggal ?></label>
                         </div>
                         <div class="form-group">
                           <label><b style="font-size: 20px">Judul :</b></label>
-                          <label style="font-size: 20px">Bangun Aplikasi Seminar Tugas Akhir Berbasis Web
-                            Menggunakan MVC Framework</label>
+                          <label style="font-size: 20px"><?= $detail[0]->judul ?></label>
                         </div>
                       </div>
                     </div>
                     <hr>
                     <div class="row">
+                      <div class="col-12 mt-2">
+                        <?php
+                        if ($this->session->flashdata('danger')) {
+                          echo '<div id="danger" class="alert alert-danger">' . $this->session->flashdata('danger') . '</div>';
+                        }
+                        if ($this->session->flashdata('warning')) {
+                          echo '<div id="warning" class="alert alert-warning">' . $this->session->flashdata('warning') . '</div>';
+                        }
+                        if ($this->session->flashdata('info')) {
+                          echo '<div id="info" class="alert alert-info">' . $this->session->flashdata('info') . '</div>';
+                        }
+                        ?>
+                      </div>
                       <div class="col-sm-12 col-md-6">
                         <div class="form-group">
                           <label><b style="font-size: 20px">NIM :</b></label>
-                          <input id="nim" type="number" class="form-control">
+                          <input id="nim" name="nim" type="number" class="form-control" required>
+                          <input id="seminar_id" name="seminar_id" type="number" value="<?= $seminar_id ?>" class="form-control" hidden readonly required>
                         </div>
                         <div class="form-group">
                           <label><b style="font-size: 20px">Nama :</b></label>
-                          <input id="nama" type="text" class="form-control">
+                          <input id="nama" name="nama" type="text" class="form-control" required>
                         </div>
                         <div class="form-group">
                           <label><b style="font-size: 20px">Prodi :</b></label>
-                          <select id="prodi" class="form-control">
+                          <select id="prodi" name="prodi" class="form-control" required>
                             <option value="0">Pilih Prodi</option>
-                            <option value="1">Tekhnik Informatika</option>
-                            <option value="2">Sistem Informasi</option>
+                            <option value="ti">Tekhnik Informatika</option>
+                            <option value="si">Sistem Informasi</option>
                           </select>
                         </div>
                         <div class="form-group">
                           <label><b style="font-size: 20px">Program :</b></label><br>
                           <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="program" id="program1" checked>
+                            <input class="form-check-input" type="radio" name="program" value="d3" id="program1" checked>
                             <label class="form-check-label" for="program1">D3</label>
                           </div>
                           <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="program" id="program2">
+                            <input class="form-check-input" type="radio" name="program" value="s1" id="program2">
                             <label class="form-check-label" for="program2">S1</label>
                           </div>
                           <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="program" id="program2">
+                            <input class="form-check-input" type="radio" name="program" value="s1_fast" id="program2">
                             <label class="form-check-label" for="program2">S1 Fast Track1</label>
                           </div>
                           <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="program" id="program2">
+                            <input class="form-check-input" type="radio" name="program" value="s3" id="program2">
                             <label class="form-check-label" for="program2">S2</label>
                           </div>
                         </div>
                         <div class="form-group">
-                          <button id="btnDaftar" class="btn btn-primary"><a href="#" class="nav-link" style="color: white">Daftar Peserta</a></button>
+                          <button id="btnDaftar" type="submit" class="btn btn-primary">Daftar Peserta</button>
                         </div>
                       </div>
                     </div>
