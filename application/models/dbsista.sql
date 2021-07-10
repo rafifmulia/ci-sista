@@ -137,12 +137,15 @@ CREATE TABLE `peserta_seminar` (
   `nim` varchar(10) DEFAULT NULL,
   `nama` varchar(45) DEFAULT NULL,
   `seminar_id` int NOT NULL,
-  `kehadiran` smallint DEFAULT '0',
-  `status` enum('yes','no') NOT NULL,
+  `kehadiran` smallint NOT NULL DEFAULT '0',
+  `status` enum('pending','acc','reject') NOT NULL DEFAULT 'pending',
+  `program` varchar(45) DEFAULT NULL,
+  `prodi` enum('ti','si') DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_peserta_seminar_mahasiswa_seminar1_idx` (`seminar_id`),
   CONSTRAINT `fk_peserta_seminar_mahasiswa_seminar1` FOREIGN KEY (`seminar_id`) REFERENCES `seminar_ta` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -151,6 +154,7 @@ CREATE TABLE `peserta_seminar` (
 
 LOCK TABLES `peserta_seminar` WRITE;
 /*!40000 ALTER TABLE `peserta_seminar` DISABLE KEYS */;
+INSERT INTO `peserta_seminar` VALUES (2,'123','rafif',5,0,'pending','S1','ti','2021-07-10 00:05:14'),(3,'123','rafif',5,0,'pending','D3','si','2021-07-10 00:05:14'),(5,'123','rafif',4,0,'acc','S1 Fast Track','ti','2021-07-10 00:14:57');
 /*!40000 ALTER TABLE `peserta_seminar` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -184,7 +188,7 @@ CREATE TABLE `seminar_ta` (
   KEY `fk_mahasiswa_seminar_dosen1_idx` (`pembimbing_id`),
   CONSTRAINT `fk_mahasiswa_seminar_dosen1` FOREIGN KEY (`pembimbing_id`) REFERENCES `dosen` (`id`),
   CONSTRAINT `fk_mahasiswa_seminar_kategori_seminar` FOREIGN KEY (`kategori_seminar_id`) REFERENCES `kategori_seminar` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -193,7 +197,7 @@ CREATE TABLE `seminar_ta` (
 
 LOCK TABLES `seminar_ta` WRITE;
 /*!40000 ALTER TABLE `seminar_ta` DISABLE KEYS */;
-INSERT INTO `seminar_ta` VALUES (3,3,'2021-07-17','09:45:00',2,'111','rafif','ti','sista',24,9,14,NULL,NULL,NULL,'google meet',NULL),(4,2,'2021-07-01','06:43:00',3,'898098','raka','ti','rancang bangun',2,17,10,NULL,NULL,NULL,'zoom',NULL);
+INSERT INTO `seminar_ta` VALUES (3,3,'2021-07-17','09:45:00',2,'111','rafif','ti','sista',24,9,14,NULL,NULL,NULL,'google meet',NULL),(4,2,'2021-07-10','06:43:00',3,'898098','raka','ti','rancang bangun',2,17,10,NULL,NULL,NULL,'zoom',NULL),(5,2,'2021-07-05','20:23:00',3,'12345','raga','ti','abcde',3,3,5,9,8,7,'zoom',8);
 /*!40000 ALTER TABLE `seminar_ta` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -212,6 +216,7 @@ CREATE TABLE `user` (
   `email` varchar(75) DEFAULT NULL,
   `status` enum('active','not') NOT NULL DEFAULT 'not',
   `is_verif` enum('yes','not') NOT NULL DEFAULT 'not',
+  `avatar` varchar(125) DEFAULT NULL,
   PRIMARY KEY (`id_user`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -222,7 +227,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'admin','21232f297a57a5a743894a0e4a801fc3','admin','admin@xyz.com','not','yes'),(5,'rafif','b92b52df66da4409b241dfbc244cd054','user','rafif@xyz.com','not','yes'),(9,'raga','b29a7b424fb5d82377584d22d10e7caa','user','raga@xyz.com','not','not'),(10,'raka','e5b2a975d9b73165bcc8b5e63ce488ff','user','raka@xyz.com','not','not'),(11,'ariska','37c923621d7655456942c1f8b613e6c6','user','ariska@xyz.com','not','not');
+INSERT INTO `user` VALUES (1,'admin','21232f297a57a5a743894a0e4a801fc3','admin','admin@xyz.com','active','yes','assets/img/uploads/neko_194336946_1623385764525561_2347714864253584056_n.jpg'),(5,'rafif','b92b52df66da4409b241dfbc244cd054','user','rafif@xyz.com','active','yes',NULL),(9,'raga','b29a7b424fb5d82377584d22d10e7caa','user','raga@xyz.com','not','not',NULL),(10,'raka','e5b2a975d9b73165bcc8b5e63ce488ff','user','raka@xyz.com','not','not',NULL),(11,'ariska','37c923621d7655456942c1f8b613e6c6','user','ariska@xyz.com','not','not',NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -235,4 +240,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-07-04 13:53:00
+-- Dump completed on 2021-07-10 15:06:46
