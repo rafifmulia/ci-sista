@@ -19,7 +19,20 @@ class Admin extends CI_Controller
 
   public function dashboard()
   {
-    $data = [];
+    $data = [
+      'count_seminar_schedule' => $this->M_data->count_seminar_schedule(),
+      'count_seminar_today' => $this->M_data->count_seminar_today(),
+      'count_seminar_finish' => $this->M_data->count_seminar_finish(),
+      'count_seminar_total' => $this->M_data->count_seminar_total(),
+      'count_dosen_total' => $this->M_data->count_dosen_total(),
+      'count_penilaian_total' => $this->M_data->count_penilaian_total(),
+      'count_user_verif' => $this->M_data->count_user_verif(),
+      'count_user_notverif' => $this->M_data->count_user_notverif(),
+    ];
+
+    // die(var_dump($data));
+
+    $this->template->ex_js('admin/ex_js/dashboard', $data);
 
     $this->template->view('admin/dashboard', $data);
   }

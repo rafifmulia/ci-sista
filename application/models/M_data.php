@@ -56,6 +56,18 @@ class M_data extends CI_Model
     return $query->result_array();
   }
 
+  public function count_user_verif()
+  {
+    $query = $this->db->select('COUNT(u.id_user) as count')->from('user as u')->where('u.is_verif', 'yes')->get();
+    return $query->result_array()[0]['count'];
+  }
+
+  public function count_user_notverif()
+  {
+    $query = $this->db->select('COUNT(u.id_user) as count')->from('user as u')->where('u.is_verif', 'not')->get();
+    return $query->result_array()[0]['count'];
+  }
+
   public function detail_user($id)
   {
     $query = $this->db->where('id_user', $id)->limit(1)->get('user');
@@ -87,6 +99,12 @@ class M_data extends CI_Model
     $query = $this->db->where('deleted_at', null)->where('is_active', 'yes')->get('dosen');
 
     return $query->result_array();
+  }
+
+  public function count_dosen_total()
+  {
+    $query = $this->db->select('COUNT(d.id) as count')->from('dosen as d')->get();
+    return $query->result_array()[0]['count'];
   }
 
   public function detail_dosen($id)
@@ -168,7 +186,7 @@ class M_data extends CI_Model
   public function get_seminar()
   {
     $query = $this->db->select('s.id,s.nim,s.nama_mahasiswa,s.tanggal,s.jam,s.lokasi,cat.nama as kategori_seminar');
-    $query->select('(SELECT SUM(p.id) FROM peserta_seminar as p WHERE p.seminar_id=id) AS total_peserta');
+    $query->select('(SELECT COUNT(p.id) FROM peserta_seminar as p WHERE p.seminar_id=s.id) AS total_peserta');
     $query->from('seminar_ta as s');
     $query->join('kategori_seminar as cat', 's.kategori_seminar_id = cat.id');
     $exec = $query->get();
@@ -182,7 +200,7 @@ class M_data extends CI_Model
     s.kategori_seminar_id,s.judul,cat.nama as kategori_seminar,s.tanggal,s.jam,s.lokasi,
     s.pembimbing_id,s.penguji1_id,s.penguji2_id,s.nilai_pembimbing,s.nilai_penguji1,s.nilai_penguji2,s.nilai_akhir
     ');
-    $query->select('(SELECT SUM(p.id) FROM peserta_seminar as p WHERE p.seminar_id=id) AS total_peserta');
+    $query->select('(SELECT COUNT(p.id) FROM peserta_seminar as p WHERE p.seminar_id=s.id) AS total_peserta');
     $query->select('(SELECT d.nama FROM dosen as d WHERE d.id=s.pembimbing_id) AS nama_pembimbing');
     $query->select('(SELECT d.nama FROM dosen as d WHERE d.id=s.penguji1_id) AS nama_penguji1');
     $query->select('(SELECT d.nama FROM dosen as d WHERE d.id=s.penguji2_id) AS nama_penguji2');
@@ -193,6 +211,30 @@ class M_data extends CI_Model
     $exec = $query->get();
 
     return $exec->result();
+  }
+
+  public function count_seminar_schedule()
+  {
+    $query = $this->db->select('COUNT(s.id) as count')->from('seminar_ta as s')->where('s.tanggal >', date('Y-m-d'))->get();
+    return $query->result_array()[0]['count'];
+  }
+
+  public function count_seminar_today()
+  {
+    $query = $this->db->select('COUNT(s.id) as count')->from('seminar_ta as s')->where('s.tanggal =', date('Y-m-d'))->get();
+    return $query->result_array()[0]['count'];
+  }
+
+  public function count_seminar_finish()
+  {
+    $query = $this->db->select('COUNT(s.id) as count')->from('seminar_ta as s')->where('s.tanggal <', date('Y-m-d'))->get();
+    return $query->result_array()[0]['count'];
+  }
+
+  public function count_seminar_total()
+  {
+    $query = $this->db->select('COUNT(s.id) as count')->from('seminar_ta as s')->get();
+    return $query->result_array()[0]['count'];
   }
 
   public function save_seminar($data)
@@ -217,6 +259,12 @@ class M_data extends CI_Model
     $query = $this->db->where('deleted_at', null)->get('penilaian');
 
     return $query->result_array();
+  }
+
+  public function count_penilaian_total()
+  {
+    $query = $this->db->select('COUNT(p.id) as count')->from('penilaian as p')->get();
+    return $query->result_array()[0]['count'];
   }
 
   public function detail_penilaian($id)
