@@ -54,16 +54,17 @@ class Admin extends CI_Controller
 
     // die(var_dump($_FILES['avatar']));
     if ($_FILES['avatar']['size'] != 0) {
-      $config['upload_path'] = './assets/img/uploads';
+      $dir = 'assets/img/uploads';
+      $config['upload_path'] = './'.$dir;
       $config['allowed_types'] = 'jpg|png|jpeg';
-      $config['max_size']     = '100';
+      $config['max_size']     = '1024';
 
       $this->load->library('upload', $config);
       if ($this->upload->do_upload('avatar')) {
-        die(var_dump($this->upload->display_errors()));
+        $data['avatar'] = $dir.'/'.$this->upload->data('file_name');
       } else {
-        die(var_dump($this->upload->data()));
-        $data['avatar'] = null;
+        $this->session->set_flashdata('warning', $this->upload->display_errors());
+        redirect('admin/profile');
       }
     }
 
