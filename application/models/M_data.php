@@ -248,6 +248,12 @@ class M_data extends CI_Model
     return $query->update('seminar_ta', $data);
   }
 
+  public function save_nilai_seminar($data)
+  {
+    $query = $this->db->where('id', $data['id']);
+    return $query->update('seminar_ta', $data);
+  }
+
   public function del_seminar($id)
   {
     return $this->db->delete('seminar_ta', ['id' => $id]);

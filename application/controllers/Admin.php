@@ -323,6 +323,31 @@ class Admin extends CI_Controller
     $this->template->view('admin/daftar_peserta', $data);
   }
 
+  public function form_penilaian()
+  {
+    $data = array(
+      'id' => $this->input->post('seminar_id'),
+      'nilai_penguji1' => $this->input->post('nilai_penguji1'),
+      'nilai_penguji2' => $this->input->post('nilai_penguji2'),
+      'nilai_pembimbing' => $this->input->post('nilai_pembimbing'),
+    );
+
+    if ($data['nilai_penguji1'] == null || $data['nilai_penguji2'] == null || $data['nilai_pembimbing'] == null) {
+      $this->session->set_flashdata('info', 'Penilaian sudah diberikan');
+    } else {
+      $nilai_akhir = ($data['nilai_penguji1'] + $data['nilai_penguji2'] + $data['nilai_pembimbing'])/3;
+      $data['nilai_akhir'] = $nilai_akhir;
+      $save = $this->M_data->save_nilai_seminar($data);
+      if ($save) {
+        $this->session->set_flashdata('info', 'Berhasil memberikan penilaian');
+      } else {
+        $this->session->set_flashdata('warning', 'Gagal memberikan penilaian');
+      }
+    }
+
+    redirect('admin/daftar_peserta?id='.$data['id']);
+  }
+
   public function detail_peserta()
   {
     header('Content-Type: application/json');

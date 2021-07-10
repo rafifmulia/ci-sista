@@ -29,6 +29,9 @@
                 Waktu Peserta: <?= substr($detail_seminar[0]->jam, 0, -3) ?> <?= $detail_seminar[0]->tanggal ?>
               </p>
             </div>
+            <div class="col-12">
+              <button class="btn btn-primary" data-toggle="modal" data-target="#modalFormPenilaian">Form Penilaian</button>
+            </div>
           </div>
         </div>
       </div>
@@ -205,6 +208,78 @@
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
           <button id="sendEdPeserta" type="submit" class="btn btn-primary">Simpan Perubahan</button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Form Penilaian -->
+  <div class="modal fade" id="modalFormPenilaian" tabindex="-1" role="dialog" aria-labelledby="modalFormPenilaianTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <form id="form_penilaian" action="<?= base_url('admin/form_penilaian') ?>" method="POST">
+          <div class="modal-header">
+            <h5 class="modal-title">Form Penilaian <span id="namaMhs" class="font-weight-bold"></span></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-4">
+                <div class="form-group">
+                  <label>Nilai Penguji1: </label>
+                  <div class="font-weight-bold mb-2"><?= $detail_seminar[0]->nama_penguji1 ?></div>
+                  <input id="seminar_id" name="seminar_id" type="number" value="<?= $detail_seminar[0]->id ?>" class="form-control" hidden readonly>
+                  <?php
+                  if ($detail_seminar[0]->nilai_penguji1 == null) {
+                    echo '<input name="nilai_penguji1" type="number" class="form-control" required>';
+                  } else {
+                    echo '<input type="number" class="form-control" value="' . $detail_seminar[0]->nilai_penguji1 . '" disabled>';
+                  }
+                  ?>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label>Nilai Penguji2: </label>
+                  <div class="font-weight-bold mb-2"><?= $detail_seminar[0]->nama_penguji2 ?></div>
+                  <?php
+                  if ($detail_seminar[0]->nilai_penguji2 == null) {
+                    echo '<input name="nilai_penguji2" type="number" class="form-control" required>';
+                  } else {
+                    echo '<input type="number" class="form-control" value="' . $detail_seminar[0]->nilai_penguji2 . '" disabled>';
+                  }
+                  ?>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label>Nilai Pembimbing: </label>
+                  <div class="font-weight-bold mb-2"><?= $detail_seminar[0]->nama_pembimbing ?></div>
+                  <?php
+                  if ($detail_seminar[0]->nilai_pembimbing == null) {
+                    echo '<input name="nilai_pembimbing" type="number" class="form-control" required>';
+                  } else {
+                    echo '<input type="number" class="form-control" value="' . $detail_seminar[0]->nilai_pembimbing . '" disabled>';
+                  }
+                  ?>
+                </div>
+              </div>
+            </div>
+            <div class="row" <?= ($detail_seminar[0]->nilai_akhir != null) ? '' : 'hidden' ?>>
+              <div class="col-12">
+                <div class="form-group">
+                  <label class="font-weight-bold">Nilai Akhir: </label>
+                  <input id="nilai_akhir" type="number" value="<?= $detail_seminar[0]->nilai_akhir ?>" class="form-control" disabled>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+            <button id="sendNilai" type="submit" class="btn btn-primary">Simpan</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
