@@ -28,7 +28,7 @@
                       <div class="col-12">
                         <div class="form-group">
                           <label><b style="font-size: 20px">Pembicara :</b></label>
-                          <label style="font-size: 20px"><?= $detail[0]->nama_mahasiswa ?></label>
+                          <label style="font-size: 20px"><?= $detail[0]->nama_mahasiswa ?> <span>(<?= $detail[0]->nim ?>)</span> - <?= ($detail[0]->prodi == 'ti') ? 'Teknik Informatika' : 'Sistem Informasi' ?></label>
                         </div>
                         <div class="form-group">
                           <label><b style="font-size: 20px">Waktu :</b></label>

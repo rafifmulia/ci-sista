@@ -67,7 +67,7 @@
                       <td><?= substr($s->jam, 0, -3) ?> <?= $s->tanggal ?></td>
                       <td><?= $s->lokasi ?></td>
                       <td>
-                        <a href="#" class="text-info viewPeserta"><?= ($s->total_peserta) ? $s->total_peserta : 0 ?> (view)</a>
+                        <a href="<?= base_url('admin/daftar_peserta').'?id='.$s->id ?>" class="text-info viewPeserta2"><?= ($s->total_peserta) ? $s->total_peserta : 0 ?> (view)</a>
                       </td>
                       <td>
                         <button class="btn btn-info editSeminar">

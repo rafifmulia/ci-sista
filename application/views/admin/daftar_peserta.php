@@ -5,8 +5,8 @@
     <nav aria-label="breadcrumb mb-0">
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="<?= base_url('admin/dashboard') ?>">Home</a></li>
-        <li class="breadcrumb-item"><a href="#">Seminar</a></li>
-        <li class="breadcrumb-item"><a href="<?= base_url('admin/daftar_seminar') ?>">Daftar Seminar</a></li>
+        <li class="breadcrumb-item"><a href="#">Peserta</a></li>
+        <li class="breadcrumb-item"><a href="<?= base_url('admin/daftar_seminar') ?>">Daftar Peserta</a></li>
         <li class="breadcrumb-item active" aria-current="page">Daftar Peserta</li>
       </ol>
     </nav>
@@ -20,13 +20,13 @@
           <div class="row font-weight-bold">
             <div class="col-12">
               <p>
-                Seminar Mahasiswa: Dieogo Armando (01020002) - Teknik Informatika
+                Peserta Mahasiswa: <?= $detail_seminar[0]->nama_mahasiswa ?> <span>(<?= $detail_seminar[0]->nim ?>)</span> - <?= ($detail_seminar[0]->prodi == 'ti') ? 'Teknik Informatika' : 'Sistem Informasi' ?>
               </p>
               <p>
-                Judul: Rancang Bangun Aplikasi Seminar Tugas Akhir Menggunakan MVC Framework
+                Judul: <?= $detail_seminar[0]->judul ?>
               </p>
               <p>
-                Waktu Seminar: Senin, 4 Januari 2020, Jam: 10:10
+                Waktu Peserta: <?= substr($detail_seminar[0]->jam, 0, -3) ?> <?= $detail_seminar[0]->tanggal ?>
               </p>
             </div>
           </div>
@@ -43,7 +43,7 @@
         <div class="card-body">
           <div class="row">
             <div class="col-12 text-center">
-              <h2>Daftar Peserta Seminar</h2>
+              <h2>Daftar Peserta</h2>
             </div>
             <div class="col-12">
               <table id="daftarPeserta" class="table table-striped table-bordered table-hover">
@@ -59,6 +59,33 @@
                   </tr>
                 </thead>
                 <tbody>
+                  <?php $i = 0;
+                  foreach ($daftar_peserta as $p) { ?>
+                    <tr>
+                      <td data-id="<?= $p->id ?>"><?= ++$i ?></td>
+                      <td><?= $p->nim ?></td>
+                      <td data-name="<?= $p->nama ?>"><?= $p->nama ?></td>
+                      <td><?= ($p->prodi == 'ti') ? 'Teknik Informatika' : 'Sistem Informasi' ?></td>
+                      <td><?= $p->created_at ?></td>
+                      <td><?php if ($p->status == 'acc') {
+                            echo '<span class="badge badge-info p-2">Diterima</span>';
+                          } else if ($p->status == 'reject') {
+                            echo '<span class="badge badge-danger p-2">Ditolak</span>';
+                          } else {
+                            echo '<span class="badge badge-warning p-2 font-weight-bold">Pending</span>';
+                          } ?></td>
+                      <td>
+                        <button class="btn btn-info editPeserta">
+                          <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-danger delPeserta">
+                          <i class="fas fa-trash-alt"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  <?php } ?>
+                </tbody>
+                <!-- <tbody>
                   <tr>
                     <td>1</td>
                     <td>0102041</td>
@@ -67,10 +94,10 @@
                     <td>S1</td>
                     <td><span class="badge badge-info p-2">Diterima</span></td>
                     <td>
-                      <button class="btn btn-info editSeminar">
+                      <button class="btn btn-info editPeserta">
                         <i class="fas fa-edit"></i>
                       </button>
-                      <button class="btn btn-danger delSeminar">
+                      <button class="btn btn-danger delPeserta">
                         <i class="fas fa-trash-alt"></i>
                       </button>
                     </td>
@@ -83,10 +110,10 @@
                     <td>S1</td>
                     <td><span class="badge badge-info p-2">Diterima</span></td>
                     <td>
-                      <button class="btn btn-info editSeminar">
+                      <button class="btn btn-info editPeserta">
                         <i class="fas fa-edit"></i>
                       </button>
-                      <button class="btn btn-danger delSeminar">
+                      <button class="btn btn-danger delPeserta">
                         <i class="fas fa-trash-alt"></i>
                       </button>
                     </td>
@@ -99,15 +126,15 @@
                     <td>S1</td>
                     <td><span class="badge badge-danger p-2">Ditolak</span></td>
                     <td>
-                      <button class="btn btn-info editSeminar">
+                      <button class="btn btn-info editPeserta">
                         <i class="fas fa-edit"></i>
                       </button>
-                      <button class="btn btn-danger delSeminar">
+                      <button class="btn btn-danger delPeserta">
                         <i class="fas fa-trash-alt"></i>
                       </button>
                     </td>
                   </tr>
-                </tbody>
+                </tbody> -->
               </table>
             </div>
           </div>
@@ -121,50 +148,62 @@
 
 <!-- Modals -->
 <div>
-  <!-- Modal Edit Seminar -->
-  <div class="modal fade" id="modalEditSeminar" tabindex="-1" role="dialog" aria-labelledby="modalEditSeminarTitle" aria-hidden="true">
+  <!-- Modal Edit Peserta -->
+  <div class="modal fade" id="modalEditPeserta" tabindex="-1" role="dialog" aria-labelledby="modalEditPesertaTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Edit Seminar <span id="namaPesertaSeminar" class="font-weight-bold"></span></h5>
+          <h5 class="modal-title">Edit Peserta <span id="namaPesertaPeserta" class="font-weight-bold"></span></h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <form action="#">
+          <form id="edit_peserta" action="<?= base_url('admin/edit_peserta') ?>" method="POST">
             <div class="form-group">
               <label>NIM</label>
-              <input type="number" class="form-control">
+              <input id="ed_nim" type="number" class="form-control" disabled>
+              <input id="ed_id" name="id" type="number" class="form-control" hidden readonly>
             </div>
             <div class="form-group">
               <label>Mahasiswa/i</label>
-              <input type="text" class="form-control">
+              <input id="ed_nama" type="text" class="form-control" disabled>
             </div>
             <div class="form-group">
               <label>Prodi</label>
-              <select class="form-control">
+              <select id="ed_prodi" class="form-control" disabled>
                 <option value="0">Pilih Prodi</option>
-                <option value="1">Teknik Informatika</option>
-                <option value="2">Sistem Informasi</option>
+                <option value="ti">Teknik Informatika</option>
+                <option value="si">Sistem Informasi</option>
               </select>
             </div>
             <div class="form-group">
               <label>Waktu</label>
               <div class="form-row">
                 <div class="col">
-                  <input type="date" class="form-control">
+                  <input id="ed_tgl" type="date" class="form-control" disabled>
                 </div>
                 <div class="col">
-                  <input type="time" class="form-control">
+                  <input id="ed_waktu" type="time" class="form-control" disabled>
                 </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Status</label><br>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="status" value="acc" checked>
+                <label class="form-check-label">Terima</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="status" value="reject">
+                <label class="form-check-label">Tolak</label>
               </div>
             </div>
           </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-          <button type="button" class="btn btn-primary">Simpan Perubahan</button>
+          <button id="sendEdPeserta" type="submit" class="btn btn-primary">Simpan Perubahan</button>
         </div>
       </div>
     </div>

@@ -233,11 +233,83 @@ class Admin extends CI_Controller
 
   public function daftar_peserta()
   {
-    $data = [];
+    $id = $this->input->get('id');
+    
+    $data = [
+      'seminar_id' => $id,
+      'detail_seminar' => $this->M_data->detail_seminar($id),
+      'daftar_peserta' => $this->M_data->get_peserta($id),
+    ];
+
+    if (count($data['detail_seminar']) < 1) {
+      $this->load->view('errors/html/error_general', ['heading'=>'Kamu jahil!', 'message'=>'<p>Jangan diubah-ubah ya :)</p>']);
+      return false;
+    }
 
     $this->template->ex_js('admin/ex_js/daftar_peserta');
 
     $this->template->view('admin/daftar_peserta', $data);
+  }
+
+  public function detail_peserta()
+  {
+    header('Content-Type: application/json');
+
+    $id = $this->input->get('id');
+    $data = $this->M_data->detail_peserta($id);
+
+    if (count($data) < 1) {
+      echo json_encode([
+        'meta' => [
+          'code' => 400,
+          'message' => 'Fail get detail peserta',
+        ]
+      ]);
+      return true;
+    }
+
+    echo json_encode([
+      'meta' => [
+        'code' => 200,
+        'message' => 'Success get detail peserta',
+      ],
+      'data' => $data[0]
+    ]);
+    return true;
+  }
+
+  public function edit_peserta()
+  {
+    $data = array(
+      'id' => $this->input->post('id'),
+      'status' => ($this->input->post('status') == 'acc') ? 'acc' : 'reject',
+    );
+
+    $peserta = $this->M_data->detail_peserta($data['id']);
+
+    $this->load->model('M_data');
+    $reg = $this->M_data->edit_peserta($data);
+    if ($reg) {
+      $this->session->set_flashdata('info', 'Berhasil merubah peserta');
+    } else {
+      $this->session->set_flashdata('warning', 'Gagal merubah peserta');
+    }
+
+    redirect('admin/daftar_peserta?id='.$peserta[0]['seminar_id']);
+  }
+
+  public function del_peserta()
+  {
+    $id = $this->input->post('id');
+    $this->load->model('M_data');
+    $delete = $this->M_data->del_peserta($id);
+    if ($delete) {
+      $this->session->set_flashdata('info', 'Berhasil menghapus peserta');
+    } else {
+      $this->session->set_flashdata('warning', 'Gagal menghapus peserta');
+    }
+
+    redirect('admin/daftar_peserta');
   }
 
   public function daftar_user()

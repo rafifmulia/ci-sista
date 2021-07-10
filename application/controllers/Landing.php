@@ -81,7 +81,8 @@ class Landing extends CI_Controller
       'nama' => $this->input->post('nama'),
       'prodi' => $this->input->post('prodi'),
       'program' => $this->input->post('program'),
-      'status' => 'no',
+      'status' => 'pending',
+      'created_at' => date('Y-m-d H:i:s'),
     );
 
     // validate data
@@ -105,7 +106,7 @@ class Landing extends CI_Controller
     }
     if ($data['program'] == 's1') {
       $data['program'] = 'S1';
-    } else if ($data['program'] == 's1') {
+    } else if ($data['program'] == 's1_fast') {
       $data['program'] = 'S1 Fast Track';
     } else if ($data['program'] == 's2') {
       $data['program'] = 'S2';

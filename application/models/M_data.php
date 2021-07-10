@@ -244,6 +244,14 @@ class M_data extends CI_Model
   }
 
   // peserta
+  public function get_peserta($id)
+  {
+    $query = $this->db->where('seminar_id', $id);
+    $exec = $query->get('peserta_seminar');
+
+    return $exec->result(); 
+  }
+
   public function save_peserta($data)
   {
     return $this->db->insert('peserta_seminar', $data);
@@ -260,5 +268,23 @@ class M_data extends CI_Model
     } else {
       return false;
     }
+  }
+
+  public function detail_peserta($id)
+  {
+    $query = $this->db->where('id', $id)->limit(1)->get('peserta_seminar');
+
+    return $query->result_array();
+  }
+
+  public function edit_peserta($data)
+  {
+    $query = $this->db->where('id', $data['id']);
+    return $query->update('peserta_seminar', $data);
+  }
+
+  public function del_peserta($id)
+  {
+    return $this->db->delete('peserta_seminar', ['id' => $id]);
   }
 }
