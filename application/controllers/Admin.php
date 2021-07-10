@@ -24,6 +24,64 @@ class Admin extends CI_Controller
     $this->template->view('admin/dashboard', $data);
   }
 
+  public function profile()
+  {
+    $data = [
+      'profile' => $this->M_data->detail_user($this->session->userdata('id_user')),
+    ];
+
+    $this->template->ex_js('admin/ex_js/profile', $data);
+
+    $this->template->view('admin/profile', $data);
+  }
+
+  public function change_profile()
+  {
+    $data = array(
+      'id_user' => $this->session->userdata('id_user'),
+    );
+
+    if ($this->input->post('password') != '') {
+      if ($this->input->post('password2') == '') {
+        $this->session->set_flashdata('warning', 'Konfirmasi Password tidak boleh kosong');
+        redirect('admin/profile');
+      } else if ($this->input->post('password2') != $this->input->post('password')) {
+        $this->session->set_flashdata('warning', 'Konfirmasi Password tidak sama');
+        redirect('admin/profile');
+      }
+      $data['password'] = md5($this->input->post('password'));
+    }
+
+    // die(var_dump($_FILES['avatar']));
+    if ($_FILES['avatar']['size'] != 0) {
+      $config['upload_path'] = './assets/img/uploads';
+      $config['allowed_types'] = 'jpg|png|jpeg';
+      $config['max_size']     = '100';
+
+      $this->load->library('upload', $config);
+      if ($this->upload->do_upload('avatar')) {
+        die(var_dump($this->upload->display_errors()));
+      } else {
+        die(var_dump($this->upload->data()));
+        $data['avatar'] = null;
+      }
+    }
+
+    if (count($data) == 1) {
+      $this->session->set_flashdata('info', 'Tidak ada data yang dirubah');
+      redirect('admin/profile');
+    }
+
+    $change = $this->M_data->edit_user($data);
+    if ($change) {
+      $this->session->set_flashdata('info', 'Berhasil merubah profile');
+    } else {
+      $this->session->set_flashdata('warning', 'Gagal merubah profile');
+    }
+
+    redirect('admin/profile');
+  }
+
   public function daftar_seminar()
   {
     $data = [
@@ -234,7 +292,7 @@ class Admin extends CI_Controller
   public function daftar_peserta()
   {
     $id = $this->input->get('id');
-    
+
     $data = [
       'seminar_id' => $id,
       'detail_seminar' => $this->M_data->detail_seminar($id),
@@ -242,7 +300,7 @@ class Admin extends CI_Controller
     ];
 
     if (count($data['detail_seminar']) < 1) {
-      $this->load->view('errors/html/error_general', ['heading'=>'Kamu jahil!', 'message'=>'<p>Jangan diubah-ubah ya :)</p>']);
+      $this->load->view('errors/html/error_general', ['heading' => 'Kamu jahil!', 'message' => '<p>Jangan diubah-ubah ya :)</p>']);
       return false;
     }
 
@@ -295,7 +353,7 @@ class Admin extends CI_Controller
       $this->session->set_flashdata('warning', 'Gagal merubah peserta');
     }
 
-    redirect('admin/daftar_peserta?id='.$peserta[0]['seminar_id']);
+    redirect('admin/daftar_peserta?id=' . $peserta[0]['seminar_id']);
   }
 
   public function del_peserta()
