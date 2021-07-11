@@ -212,13 +212,13 @@ CREATE TABLE `user` (
   `id_user` int NOT NULL AUTO_INCREMENT,
   `username` varchar(50) DEFAULT NULL,
   `password` varchar(75) DEFAULT NULL,
-  `lvl` enum('admin','user') DEFAULT NULL,
+  `lvl` enum('admin','user') NOT NULL,
   `email` varchar(75) DEFAULT NULL,
   `status` enum('active','not') NOT NULL DEFAULT 'not',
   `is_verif` enum('yes','not') NOT NULL DEFAULT 'not',
   `avatar` varchar(125) DEFAULT NULL,
   PRIMARY KEY (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -227,7 +227,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'admin','21232f297a57a5a743894a0e4a801fc3','admin','admin@xyz.com','active','yes','assets/img/uploads/neko_194336946_1623385764525561_2347714864253584056_n.jpg'),(5,'rafif','b92b52df66da4409b241dfbc244cd054','user','rafif@xyz.com','active','yes',NULL),(9,'raga','b29a7b424fb5d82377584d22d10e7caa','user','raga@xyz.com','not','not',NULL),(10,'raka','e5b2a975d9b73165bcc8b5e63ce488ff','user','raka@xyz.com','not','not',NULL),(11,'ariska','37c923621d7655456942c1f8b613e6c6','user','ariska@xyz.com','not','not',NULL);
+INSERT INTO `user` VALUES (1,'admin','21232f297a57a5a743894a0e4a801fc3','admin','admin@xyz.com','active','yes','assets/img/uploads/Screenshot_from_2021-07-06_21-16-10.png'),(2,'rafif','b92b52df66da4409b241dfbc244cd054','user','rafif@xyz.com','not','yes',NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -240,4 +240,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-07-10 15:06:46
+-- Dump completed on 2021-07-11 12:58:44
