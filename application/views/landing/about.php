@@ -14,7 +14,7 @@
         <div class="card-body">
           <div class="team-box text-center py-3 rounded mt-4">
             <div class="team-img">
-              <img src="https://instagram.fcgk9-1.fna.fbcdn.net/v/t51.2885-19/s150x150/36136808_403485656724593_7072849720967692288_n.jpg?_nc_ht=instagram.fcgk9-1.fna.fbcdn.net&_nc_cat=105&_nc_ohc=rtw241Nvz_EAX_q9VDo&tp=1&oh=f44e6a6654f8b1cedc3831c6fbb412c4&oe=6035086C" class="img-fluid rounded-circle" alt="" style="width:120px;height:120px;">
+              <img src="<?= base_url('assets/img/rafif.jpg') ?>" class="img-fluid rounded-circle" alt="" style="width:120px;height:120px;">
             </div>
             <!-- <div class="team-social-icon">
                                     <i class="mdi mdi-email"></i>
@@ -49,7 +49,7 @@
         <div class="card-body">
           <div class="team-box text-center py-3 rounded mt-4">
             <div class="team-img">
-              <img src="https://instagram.fcgk9-2.fna.fbcdn.net/v/t51.2885-19/s150x150/125434474_2489300578029546_2137320613067551843_n.jpg?_nc_ht=instagram.fcgk9-2.fna.fbcdn.net&_nc_cat=106&_nc_ohc=EliN9TGaiGAAX-48nId&tp=1&oh=5c2f3135e4f2232abcf99f31c700b6f0&oe=6036B5AF" class="img-fluid rounded-circle" alt="" style="width:120px;height:120px;">
+              <img src="<?= base_url('assets/img/raga.jpg') ?>" class="img-fluid rounded-circle" alt="" style="width:120px;height:120px;">
             </div>
             <!-- <div class="team-social-icon">
                                     <i class="mdi mdi-email"></i>
@@ -84,7 +84,7 @@
         <div class="card-body">
           <div class="team-box text-center py-3 rounded mt-4">
             <div class="team-img">
-              <img src="https://instagram.fcgk8-1.fna.fbcdn.net/v/t51.2885-19/s150x150/122109707_205353324447251_5800889460583858548_n.jpg?_nc_ht=instagram.fcgk8-1.fna.fbcdn.net&_nc_cat=111&_nc_ohc=sZSQYaCQQcMAX-hfBrS&tp=1&oh=37659e47fd500b93b164c957a48cd5d2&oe=6034A7D7" class="img-fluid rounded-circle" alt="" style="width:120px;height:120px;">
+              <img src="<?= base_url('assets/img/raka.jpg') ?>" class="img-fluid rounded-circle" alt="" style="width:120px;height:120px;">
             </div>
             <!-- <div class="team-social-icon">
                                     <i class="mdi mdi-email"></i>
@@ -119,7 +119,7 @@
         <div class="card-body">
           <div class="team-box text-center py-3 rounded mt-4">
             <div class="team-img">
-              <img src="https://instagram.fcgk8-2.fna.fbcdn.net/v/t51.2885-19/s150x150/128772269_755078321751079_7843909652724332011_n.jpg?_nc_ht=instagram.fcgk8-2.fna.fbcdn.net&_nc_cat=107&_nc_ohc=A9b0B_W-uJoAX9l2EwT&tp=1&oh=b3bce1d3c6bae73115ea87f227b6306f&oe=60368E08" class="img-fluid rounded-circle" alt="" style="width:120px;height:120px;">
+              <img src="<?= base_url('assets/img/ariska.jpeg') ?>" class="img-fluid rounded-circle" alt="" style="width:120px;height:120px;">
             </div>
             <!-- <div class="team-social-icon">
                                     <i class="mdi mdi-email"></i>
