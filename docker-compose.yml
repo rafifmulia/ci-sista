@@ -1,0 +1,30 @@
+version: "3.7"
+services:
+  app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: ci-sista
+    container_name: ci-sista
+    restart: unless-stopped
+    working_dir: /var/www/html/ci-sista
+    volumes:
+      - ./:/var/www/html/ci-sista
+    networks:
+      - ci-sista
+
+  nginx:
+    image: nginx:alpine
+    container_name: ci-sista-nginx
+    restart: unless-stopped
+    ports:
+      - "5002:5002"
+    volumes:
+      - ./:/var/www/html/ci-sista
+      - ./docker-data/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - ci-sista
+
+networks:
+  ci-sista:
+    driver: bridge
