@@ -75,7 +75,7 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'docker.for.mac.host.internal',
+	'hostname' => 'localhost',
 	'username' => 'root',
 	'password' => 'root',
 	'database' => 'dbsista',
